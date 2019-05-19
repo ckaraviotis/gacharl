@@ -8,6 +8,7 @@ import libtcodpy as libtcod
 import constants
 from tile import Tile
 from actor import Actor
+from components import Creature
 
 def create_map():
     ''' Generate a map '''
@@ -80,8 +81,10 @@ def game_init():
     surface = pygame.display.set_mode((constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
     level = create_map()
 
-    player = Actor(0, 0, constants.S_PLAYER)
-    enemy = Actor(10, 5, constants.S_ENEMY)
+    pc = Creature('Bert')
+    ec = Creature('Blob')
+    player = Actor(0, 0, constants.S_PLAYER, 'Human', creature = pc)
+    enemy = Actor(10, 5, constants.S_ENEMY, 'Slime', creature = ec)
 
     npcs = [enemy]
 
