@@ -27,6 +27,11 @@ PLAYERS.add('Warrior', (0, 1))
 PLAYERS.add('Ranger', (0, 2))
 PLAYERS.add('Barbarian', (0, 3))
 
+SLIMES = Sheet(SPRITE_WIDTH, SPRITE_HEIGHT, 15, 8, "data/img/Characters/Slime0.png")
+SLIMES.add('SlimeA', (1, 0))
+SLIMES.add('SlimeB', (1, 1))
+SLIMES.add('SlimeC', (1, 2))
+
 FLOOR = Sheet(SPRITE_WIDTH, SPRITE_HEIGHT, 39, 21, "data/img/Objects/Floor.png")
 FLOOR.add('TOP_LEFT', (12, 0))
 FLOOR.add('TOP_CENTER', (12, 1))
@@ -53,5 +58,4 @@ WALL.add('BOT_RIGHT', (8, 2))
 S_PLAYER = PLAYERS.get('default')
 S_FLOOR = FLOOR.get('MID_CENTER')
 S_WALL = WALL.get('MID_CENTER')
-
-
+S_ENEMY = SLIMES.get('SlimeB')

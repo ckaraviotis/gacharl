@@ -31,18 +31,22 @@ def render_level(level, surface):
 
 
 
-def render(level, surface, player):
+def render(level, surface, player, npcs):
     ''' The main game rendering method '''
     # Clear the display
     surface.fill(constants.COLOR_DEFAULT_BG)
 
     render_level(level, surface)
+
+    for npc in npcs:
+        npc.render(surface)
+
     player.render(surface)
 
     # Update the display
     pygame.display.flip()
 
-def game_main_loop(surface, level, player):
+def game_main_loop(surface, level, player, npcs):
     ''' The main game loop '''
     game_quit = False
     while not game_quit:
@@ -63,7 +67,7 @@ def game_main_loop(surface, level, player):
                     player.move(1, 0, level)
         
         # Render!
-        render(level, surface, player)
+        render(level, surface, player, npcs)
 
     # Quit the game
     pygame.quit()
@@ -71,15 +75,18 @@ def game_main_loop(surface, level, player):
 
 def game_init():
     ''' Initialize the main game window & pygame '''
-    Game = collections.namedtuple('Game', ['surface', 'level', 'player'])
+    Game = collections.namedtuple('Game', ['surface', 'level', 'player', 'npcs'])
     pygame.init()
     surface = pygame.display.set_mode((constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
     level = create_map()
 
     player = Actor(0, 0, constants.S_PLAYER)
+    enemy = Actor(10, 5, constants.S_ENEMY)
 
-    return Game(surface, level, player)
+    npcs = [enemy]
+
+    return Game(surface, level, player, npcs)
 
 if __name__ == '__main__':
     GAME = game_init()
-    game_main_loop(GAME.surface, GAME.level, GAME.player)
+    game_main_loop(GAME.surface, GAME.level, GAME.player, GAME.npcs)
