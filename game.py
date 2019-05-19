@@ -7,6 +7,7 @@ import pygame
 import libtcodpy as libtcod
 import constants
 from tile import Tile
+from actor import Actor
 
 def create_map():
     ''' Generate a map '''
@@ -30,20 +31,18 @@ def render_level(level, surface):
 
 
 
-def render(level, surface):
+def render(level, surface, player):
     ''' The main game rendering method '''
     # Clear the display
     surface.fill(constants.COLOR_DEFAULT_BG)
 
     render_level(level, surface)
-
-    # Draw character
-    surface.blit(constants.S_PLAYER, (200, 200))
+    player.render(surface)
 
     # Update the display
     pygame.display.flip()
 
-def game_main_loop(surface, level):
+def game_main_loop(surface, level, player):
     ''' The main game loop '''
     game_quit = False
     while not game_quit:
@@ -53,9 +52,18 @@ def game_main_loop(surface, level):
         for event in events:
             if event.type == pygame.QUIT:
                 game_quit = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    player.move(0, -1, level)
+                if event.key == pygame.K_DOWN:
+                    player.move(0, 1, level)
+                if event.key == pygame.K_LEFT:
+                    player.move(-1, 0, level)
+                if event.key == pygame.K_RIGHT:
+                    player.move(1, 0, level)
         
         # Render!
-        render(level, surface)
+        render(level, surface, player)
 
     # Quit the game
     pygame.quit()
@@ -63,13 +71,15 @@ def game_main_loop(surface, level):
 
 def game_init():
     ''' Initialize the main game window & pygame '''
-    Game = collections.namedtuple('Game', ['surface', 'level'])
+    Game = collections.namedtuple('Game', ['surface', 'level', 'player'])
     pygame.init()
     surface = pygame.display.set_mode((constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
     level = create_map()
 
-    return Game(surface, level)
+    player = Actor(0, 0, constants.S_PLAYER)
+
+    return Game(surface, level, player)
 
 if __name__ == '__main__':
     GAME = game_init()
-    game_main_loop(GAME.surface, GAME.level)
+    game_main_loop(GAME.surface, GAME.level, GAME.player)
