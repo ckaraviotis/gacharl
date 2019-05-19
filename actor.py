@@ -2,15 +2,18 @@
 import constants
 
 class Actor:
-    def __init__(self, x, y, sprite, name, creature = None):
+    def __init__(self, x, y, sprite, name, creature = None, ai = None):
         self.x = x
         self.y = y
         self.sprite = sprite
         self.name = name
+        self.creature = creature
+        self.ai = ai
 
-        if creature:
-            self.creature = creature
+        if creature:    
             creature.owner = self
+        if ai:
+            ai.owner = self
 
     def render(self, surface):
          # Draw character

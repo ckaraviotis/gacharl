@@ -8,7 +8,7 @@ import libtcodpy as libtcod
 import constants
 from tile import Tile
 from actor import Actor
-from components import Creature
+from components import Creature, Ai_Test
 
 def create_map():
     ''' Generate a map '''
@@ -49,9 +49,11 @@ def render(level, surface, player, npcs):
 
 def game_main_loop(surface, level, player, npcs):
     ''' The main game loop '''
-    game_quit = False
+    game_quit = False    
+
     while not game_quit:
         events = pygame.event.get()
+        ai_move = False
 
         # Process events this frame
         for event in events:
@@ -60,13 +62,23 @@ def game_main_loop(surface, level, player, npcs):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     player.move(0, -1, level)
+                    ai_move = True
                 if event.key == pygame.K_DOWN:
                     player.move(0, 1, level)
+                    ai_move = True
                 if event.key == pygame.K_LEFT:
                     player.move(-1, 0, level)
+                    ai_move = True
                 if event.key == pygame.K_RIGHT:
                     player.move(1, 0, level)
+                    ai_move = True
         
+        # Ai Turns
+        if ai_move:
+            for npc in npcs:
+                if npc.ai:
+                    npc.ai.turn(level)
+
         # Render!
         render(level, surface, player, npcs)
 
@@ -83,10 +95,13 @@ def game_init():
 
     pc = Creature('Bert')
     ec = Creature('Blob')
+    ai = Ai_Test()
+    ai2 = Ai_Test()
     player = Actor(0, 0, constants.S_PLAYER, 'Human', creature = pc)
-    enemy = Actor(10, 5, constants.S_ENEMY, 'Slime', creature = ec)
+    enemy = Actor(10, 5, constants.S_ENEMY, 'Slime', creature = ec, ai = ai)
+    enemy2 = Actor(15, 3, constants.S_ENEMY, 'Slime', creature = ec, ai = ai2)
 
-    npcs = [enemy]
+    npcs = [enemy, enemy2]
 
     return Game(surface, level, player, npcs)
 
