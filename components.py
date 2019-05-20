@@ -16,13 +16,13 @@ Very Stupid AI component
 Do something once a turn!
 '''
 class Ai_Test:
-    def turn(self, level):
+    def turn(self, level, game_objects):
         d = random.randint(-1, 1)        
         x = random.randint(0, 1)
         if (x == 0):
-            self.owner.move(d, 0, level)
+            self.owner.move(d, 0, level, game_objects)
         else:
-            self.owner.move(0, d, level)
+            self.owner.move(0, d, level, game_objects)
 
 
 '''

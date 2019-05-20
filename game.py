@@ -16,6 +16,14 @@ def create_map():
 
     new_map[10][10].passable = False
     new_map[10][15].passable = False
+
+    for x in range(constants.MAP_WIDTH):
+        new_map[x][0].passable = False
+        new_map[x][constants.MAP_HEIGHT-1].passable = False
+    
+    for y in range(constants.MAP_HEIGHT):
+        new_map[0][y].passable = False
+        new_map[constants.MAP_WIDTH-1][y].passable = False
     
     return new_map
 
@@ -49,7 +57,8 @@ def render(level, surface, player, npcs):
 
 def game_main_loop(surface, level, player, npcs):
     ''' The main game loop '''
-    game_quit = False    
+    game_quit = False
+    game_objects = [player] + npcs
 
     while not game_quit:
         events = pygame.event.get()
@@ -61,23 +70,26 @@ def game_main_loop(surface, level, player, npcs):
                 game_quit = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
-                    player.move(0, -1, level)
+                    player.move(0, -1, level, game_objects)
                     ai_move = True
                 if event.key == pygame.K_DOWN:
-                    player.move(0, 1, level)
+                    player.move(0, 1, level, game_objects)
                     ai_move = True
                 if event.key == pygame.K_LEFT:
-                    player.move(-1, 0, level)
+                    player.move(-1, 0, level, game_objects)
                     ai_move = True
                 if event.key == pygame.K_RIGHT:
-                    player.move(1, 0, level)
+                    player.move(1, 0, level, game_objects)
+                    ai_move = True
+                if event.key == pygame.K_PERIOD:
+                    player.move(0, 0, level, game_objects)
                     ai_move = True
         
         # Ai Turns
         if ai_move:
             for npc in npcs:
                 if npc.ai:
-                    npc.ai.turn(level)
+                    npc.ai.turn(level, game_objects)
 
         # Render!
         render(level, surface, player, npcs)
@@ -90,16 +102,16 @@ def game_init():
     ''' Initialize the main game window & pygame '''
     Game = collections.namedtuple('Game', ['surface', 'level', 'player', 'npcs'])
     pygame.init()
-    surface = pygame.display.set_mode((constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
+    surface = pygame.display.set_mode((constants.MAP_WIDTH * constants.SPRITE_WIDTH, constants.MAP_HEIGHT * constants.SPRITE_HEIGHT))
     level = create_map()
 
     pc = Creature('Bert')
     ec = Creature('Blob')
     ai = Ai_Test()
     ai2 = Ai_Test()
-    player = Actor(0, 0, constants.S_PLAYER, 'Human', creature = pc)
+    player = Actor(1, 1, constants.S_PLAYER, 'Human', creature = pc)
     enemy = Actor(10, 5, constants.S_ENEMY, 'Slime', creature = ec, ai = ai)
-    enemy2 = Actor(15, 3, constants.S_ENEMY, 'Slime', creature = ec, ai = ai2)
+    enemy2 = Actor(15, 3, constants.S_ENEMY_2, 'Slime', creature = ec, ai = ai2)
 
     npcs = [enemy, enemy2]
 
