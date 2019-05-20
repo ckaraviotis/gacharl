@@ -33,6 +33,7 @@ class Actor:
         
         if tile_occupant:
             print(self.creature.name + ' attacks ' + tile_occupant.creature.name)
+            tile_occupant.creature.take_damage(5)
 
         elif dest_passable:
             self.x = dest_x

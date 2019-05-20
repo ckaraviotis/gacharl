@@ -6,9 +6,27 @@ Creature component
 Creatures have health, can damage other things and can die.
 '''
 class Creature:
-    def __init__(self, name, hp = 10):
+    def __init__(self, name, hp = 10, on_death = None):
         self.name = name
         self.hp = hp
+        self.on_death = on_death
+        if on_death:
+            on_death.owner = self
+    
+    def take_damage(self, damage):
+        self.hp -= damage
+        print(f'{self.name} takes {damage} damage!')
+
+        if self.hp <= 0:
+            if self.on_death:
+                self.on_death.trigger()
+
+''' Simple death trigger '''
+class Death_Test:
+    def trigger(self):
+        print(f'{self.owner.name} dies!')
+        self.owner.owner.creature = None
+        self.owner.owner.ai = None
 
 '''
 Very Stupid AI component
