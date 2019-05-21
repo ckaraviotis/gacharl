@@ -1,5 +1,5 @@
 '''An Actor is the base class for all other objects in the game'''
-import constants
+import sprites
 
 class Actor:
     def __init__(self, x, y, sprite, name, creature = None, ai = None):
@@ -17,4 +17,4 @@ class Actor:
 
     def render(self, surface):
          # Draw character
-        surface.blit(self.sprite, (self.x * constants.SPRITE_WIDTH, self.y * constants.SPRITE_HEIGHT))
+        surface.blit(self.sprite, (self.x * sprites.SPRITE_WIDTH, self.y * sprites.SPRITE_HEIGHT))
