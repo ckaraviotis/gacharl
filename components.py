@@ -42,6 +42,9 @@ class Creature:
 
 """ Simple death trigger """
 class Death_Test:
+    def __init__(self):
+        self.owner = None
+
     def trigger(self):
         print(f'{self.owner.name} dies!')
         self.owner.owner.creature = None
@@ -53,10 +56,13 @@ Very Stupid AI component
 Do something once a turn!
 '''
 class Ai_Test:
+    def __init__(self):
+        self.owner = None
+
     def turn(self, level, game_objects):
-        d = random.randint(-1, 1)        
+        d = random.randint(-1, 1)
         x = random.randint(0, 1)
-        if (x == 0):
+        if x == 0:
             self.owner.creature.move(d, 0, level, game_objects)
         else:
             self.owner.creature.move(0, d, level, game_objects)

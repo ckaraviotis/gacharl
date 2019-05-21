@@ -5,7 +5,7 @@ import collections
 import pygame
 import libtcodpy as libtcod
 import constants
-import level
+import level as Level
 from actor import Actor
 from components import Creature, Ai_Test, Death_Test
 
@@ -86,9 +86,9 @@ def game_init():
 
     npcs = [enemy, enemy2]
 
-    lvl = level.Level(constants.MAP_WIDTH, constants.MAP_HEIGHT, [player] + npcs)
+    level = Level.Level(constants.MAP_WIDTH, constants.MAP_HEIGHT, [player] + npcs)
 
-    return Game(surface, lvl, player, npcs)
+    return Game(surface, level, player, npcs)
 
 if __name__ == '__main__':
     GAME = game_init()
