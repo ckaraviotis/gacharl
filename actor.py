@@ -18,23 +18,3 @@ class Actor:
     def render(self, surface):
          # Draw character
         surface.blit(self.sprite, (self.x * constants.SPRITE_WIDTH, self.y * constants.SPRITE_HEIGHT))
-
-    def move(self, dx, dy, level, game_objects):
-        dest_x = self.x + dx
-        dest_y = self.y + dy
-
-        dest_passable = level[dest_x][dest_y].passable == True
-        tile_occupant = None
-
-        for o in game_objects:
-            if (o is not self and o.x == dest_x and o.y == dest_y and o.creature):
-                tile_occupant = o
-                break
-        
-        if tile_occupant:
-            print(self.creature.name + ' attacks ' + tile_occupant.creature.name)
-            tile_occupant.creature.take_damage(5)
-
-        elif dest_passable:
-            self.x = dest_x
-            self.y = dest_y
