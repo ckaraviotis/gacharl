@@ -12,7 +12,7 @@ class Creature:
     
     def take_damage(self, damage):
         self.hp -= damage
-        print(f'{self.name} takes {damage} damage!')
+        self.owner.messages.add(f'{self.name} takes {damage} damage!', 'info')
 
         if self.hp <= 0:
             if self.on_death:
@@ -37,7 +37,7 @@ class Creature:
             self.owner.y = dest_y
     
     def attack(self, target, damage):
-        print(self.owner.creature.name + ' attacks ' + target.creature.name)
+        self.owner.messages.add(self.owner.creature.name + ' attacks ' + target.creature.name, 'info')
         target.creature.take_damage(damage)
 
 """ Simple death trigger """
@@ -46,7 +46,7 @@ class Death_Test:
         self.owner = None
 
     def trigger(self):
-        print(f'{self.owner.name} dies!')
+        self.owner.owner.messages.add(f'{self.owner.name} dies!', 'info')
         self.owner.owner.creature = None
         self.owner.owner.ai = None
 

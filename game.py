@@ -8,8 +8,9 @@ import sprites_dawn as sprites
 import level as Level
 from actor import Actor
 from components import Creature, Ai_Test, Death_Test
+import messages as Messages
 
-def render(level, surface, player, npcs):
+def render(level, surface, player, npcs, messages):
     ''' The main game rendering method '''
     # Clear the display
     surface.fill(constants.COLOR_DEFAULT_BG)
@@ -23,9 +24,10 @@ def render(level, surface, player, npcs):
     player.render(surface)
 
     # Update the display
+    messages.r2(surface)
     pygame.display.flip()
 
-def game_main_loop(surface, level, player, npcs):
+def game_main_loop(surface, level, player, npcs, messages):
     ''' The main game loop '''
     game_quit = False
 
@@ -64,7 +66,7 @@ def game_main_loop(surface, level, player, npcs):
                     npc.ai.turn(level)
 
         # Render!
-        render(level, surface, player, npcs)
+        render(level, surface, player, npcs, messages)
 
     # Quit the game
     pygame.quit()
@@ -72,9 +74,11 @@ def game_main_loop(surface, level, player, npcs):
 
 def game_init():
     ''' Initialize the main game window & pygame '''
-    Game = collections.namedtuple('Game', ['surface', 'level', 'player', 'npcs'])
+    Game = collections.namedtuple('Game', ['surface', 'level', 'player', 'npcs', 'messages'])
     pygame.init()
     surface = pygame.display.set_mode((constants.MAP_WIDTH * sprites.SPRITE_WIDTH, constants.MAP_HEIGHT * sprites.SPRITE_HEIGHT))    
+    
+    messages = Messages.Log()
 
     d = Death_Test()
     d2 = Death_Test()
@@ -83,16 +87,15 @@ def game_init():
     ec2 = Creature('Blob B', 15, d2)
     ai = Ai_Test()
     ai2 = Ai_Test()
-    player = Actor(1, 1, sprites.S_PLAYER, 'Human', creature = pc)
-    enemy = Actor(10, 5, sprites.S_ENEMY, 'Slime', creature = ec, ai = ai)
-    enemy2 = Actor(15, 3, sprites.S_ENEMY_2, 'Slime', creature = ec2, ai = ai2)
+    player = Actor(1, 1, sprites.S_PLAYER, 'Human', messages, pc)
+    enemy = Actor(10, 5, sprites.S_ENEMY, 'Slime', messages, ec, ai)
+    enemy2 = Actor(15, 3, sprites.S_ENEMY_2, 'Slime', messages, ec2, ai2)
 
     npcs = [enemy, enemy2]
-
     level = Level.Level(constants.MAP_WIDTH, constants.MAP_HEIGHT, [player] + npcs)
 
-    return Game(surface, level, player, npcs)
+    return Game(surface, level, player, npcs, messages)
 
 if __name__ == '__main__':
     GAME = game_init()
-    game_main_loop(GAME.surface, GAME.level, GAME.player, GAME.npcs)
+    game_main_loop(GAME.surface, GAME.level, GAME.player, GAME.npcs, GAME.messages)
