@@ -1,6 +1,7 @@
 '''A simple sprite sheet'''
-import constants
 import pygame
+import sprites_dawn as sprites
+
 
 class Sheet:
     def __init__(self, width, height, rows, cols, image):
@@ -12,7 +13,7 @@ class Sheet:
         # Scale up the image!
         orig = pygame.image.load(image)
         size = orig.get_size()
-        self.image = pygame.transform.scale(orig, (int(size[0]*2), int(size[1]*2)))
+        self.image = pygame.transform.scale(orig, (int(size[0]*sprites.SCALE_MULT), int(size[1]*sprites.SCALE_MULT)))
 
         # Create a default sprite from the top-left
         self.sprites = {'default': self.index((0, 0))}

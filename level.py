@@ -31,8 +31,10 @@ class Level:
         ''' Generate a map '''
         new_map = [[Tile(True) for y in range(0, self.height)] for x in range(0, self.width)]
 
+        new_map[5][5].passable = False
+        new_map[5][10].passable = False
+        new_map[10][5].passable = False
         new_map[10][10].passable = False
-        new_map[10][15].passable = False
 
         for x in range(self.width):
             new_map[x][0].passable = False
