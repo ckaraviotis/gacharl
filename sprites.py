@@ -35,7 +35,10 @@ SPRITES.add('BigGob', (3, 26))
 
 # Individual sprites
 S_PLAYER = SPRITES.get('Wizzy')
-S_FLOOR = SPRITES.get('FloorA')
+S_FLOOR = SPRITES.get('FloorC')
 S_WALL = SPRITES.get('BOT_CENTER')
 S_ENEMY = SPRITES.get('Gobbo')
 S_ENEMY_2 = SPRITES.get('BigGob')
+
+S_WALL_UNEXPLORED = SPRITES.get('BOT_CENTER_DARK')
+S_FLOOR_UNEXPLORED = SPRITES.get('FloorC_DARK')

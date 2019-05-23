@@ -1,10 +1,11 @@
 import libtcodpy as libtcod
 import constants
-import sprites
+import sprites_dawn as sprites
 
 class Tile:
     def __init__(self, passable):
         self.passable = passable
+        self.explored = False
 
 class Level:
     def __init__(self, width, height, game_objects):
@@ -51,12 +52,21 @@ class Level:
                 is_visible = self.is_visible(x, y)
 
                 if is_visible:
+                    self.level[x][y].explored = True
                     if self.level[x][y].passable:
                         # draw floor
                         surface.blit(sprites.S_FLOOR, (x * sprites.SPRITE_WIDTH, y * sprites.SPRITE_HEIGHT))
                     else:
                         # draw wall
                         surface.blit(sprites.S_WALL, (x * sprites.SPRITE_WIDTH, y * sprites.SPRITE_HEIGHT))
+                else:
+                    if self.level[x][y].explored:
+                        if self.level[x][y].passable:
+                            # draw floor
+                            surface.blit(sprites.S_FLOOR_UNEXPLORED, (x * sprites.SPRITE_WIDTH, y * sprites.SPRITE_HEIGHT))
+                        else:
+                            # draw wall
+                            surface.blit(sprites.S_WALL_UNEXPLORED, (x * sprites.SPRITE_WIDTH, y * sprites.SPRITE_HEIGHT))
     
     def generate_fov(self):
         fov_map = libtcod.map_new(self.width, self.height)

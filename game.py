@@ -4,7 +4,7 @@ Main Game
 import collections
 import pygame
 import constants
-import sprites
+import sprites_dawn as sprites
 import level as Level
 from actor import Actor
 from components import Creature, Ai_Test, Death_Test

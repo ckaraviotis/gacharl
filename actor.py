@@ -1,5 +1,5 @@
 '''An Actor is the base class for all other objects in the game'''
-import sprites
+import sprites_dawn as sprites
 
 class Actor:
     def __init__(self, x, y, sprite, name, creature = None, ai = None):

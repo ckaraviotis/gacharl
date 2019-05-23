@@ -8,8 +8,15 @@ class Sheet:
         self.height = height
         self.rows = rows
         self.cols = cols
-        self.image = pygame.image.load(image)
-        self.sprites = { 'default': self.index((0, 0))}
+        
+        # Scale up the image!
+        orig = pygame.image.load(image)
+        size = orig.get_size()
+        self.image = pygame.transform.scale(orig, (int(size[0]*2), int(size[1]*2)))
+
+        # Create a default sprite from the top-left
+        self.sprites = {'default': self.index((0, 0))}
+        
     
     def index(self, loc):
         '''loc should be a tuple of (row, col)'''
