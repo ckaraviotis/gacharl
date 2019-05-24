@@ -21,5 +21,5 @@ def game_init():
     return Game.Game()
 
 if __name__ == '__main__':
-    game = game_init()
-    game_main_loop(game)
+    GAME = game_init()
+    game_main_loop(GAME)

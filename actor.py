@@ -1,10 +1,11 @@
 '''An Actor is the base class for all other objects in the game'''
-import sprites_dawn as sprites
 
 class Actor:
-    def __init__(self, x, y, sprite, name, messages, creature = None, ai = None):
+    def __init__(self, x, y, w, h, sprite, name, messages, creature = None, ai = None):
         self.x = x
         self.y = y
+        self.w = w
+        self.h = h
         self.sprite = sprite
         self.name = name
         self.creature = creature
@@ -18,4 +19,4 @@ class Actor:
 
     def render(self, surface):
          # Draw character
-        surface.blit(self.sprite, (self.x * sprites.SPRITE_WIDTH, self.y * sprites.SPRITE_HEIGHT))
+        surface.blit(self.sprite, (self.x * self.w, self.y * self.h))

@@ -6,7 +6,9 @@ import level as Level
 
 class Game:
     def __init__(self):
-        self.surface = pygame.display.set_mode((constants.MAP_WIDTH * sprites.SPRITE_WIDTH, constants.MAP_HEIGHT * sprites.SPRITE_HEIGHT))
+        self.sprites = sprites.Sprites()
+        self.surface = pygame.display.set_mode((constants.MAP_WIDTH * self.sprites.SPRITE_WIDTH, constants.MAP_HEIGHT * self.sprites.SPRITE_HEIGHT))
+        self.sprites.load()
         self.level = []
         self.log = Messages.Log()
         self.create_level()

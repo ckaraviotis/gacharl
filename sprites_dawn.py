@@ -1,72 +1,87 @@
 from sheet import Sheet
 
-# Sprites!
-SOURCE_WIDTH = 16
-SOURCE_HEIGHT = 16
-SCALE_MULT = 3
+class Sprites:
+    def __init__(self):
+        # Sprites!
+        self.SOURCE_WIDTH = 16
+        self.SOURCE_HEIGHT = 16
+        self.SCALE_MULT = 3
 
-SPRITE_WIDTH = SOURCE_WIDTH * SCALE_MULT
-SPRITE_HEIGHT = SOURCE_HEIGHT * SCALE_MULT
+        self.SPRITE_WIDTH = self.SOURCE_WIDTH * self.SCALE_MULT
+        self.SPRITE_HEIGHT = self.SOURCE_HEIGHT * self.SCALE_MULT
 
-# Sprite Sheets
-PLAYERS = Sheet(SPRITE_WIDTH, SPRITE_HEIGHT, 15, 8, "data/img/Characters/Player0.png")
-PLAYERS.add('Warrior',   (1, 0))
-PLAYERS.add('Ranger',    (2, 0))
-PLAYERS.add('Barbarian', (3, 0))
+    def load(self):
+        # Sprite Sheets
+        self.PLAYERS = Sheet(self.SPRITE_WIDTH, self.SPRITE_HEIGHT, self.SCALE_MULT, "data/img/Characters/Player")
+        self.SLIMES = Sheet(self.SPRITE_WIDTH, self.SPRITE_HEIGHT, self.SCALE_MULT, "data/img/Characters/Slime")
+        self.FLOOR = Sheet(self.SPRITE_WIDTH, self.SPRITE_HEIGHT, self.SCALE_MULT, "data/img/Objects/Floor", False)
+        self.WALL = Sheet(self.SPRITE_WIDTH, self.SPRITE_HEIGHT, self.SCALE_MULT, "data/img/Objects/Wall", False)
 
-SLIMES = Sheet(SPRITE_WIDTH, SPRITE_HEIGHT, 15, 8, "data/img/Characters/Slime0.png")
-SLIMES.add('SlimeA', (0, 1))
-SLIMES.add('SlimeB', (1, 1))
-SLIMES.add('SlimeC', (2, 1))
+        self.MARBLE_WALLS = {
+            'northEast': (0, 3),
+            'north'    : (1, 3),
+            'northWest': (2, 3),
+            'west'     : (0, 4),
+            'center'   : (1, 4),
+            'east'     : (2, 4),
+            'southWest': (0, 5),
+            'south'    : (1, 5),
+            'southEast': (2, 5)
+        }
 
-FLOOR = Sheet(SPRITE_WIDTH, SPRITE_HEIGHT, 39, 21, "data/img/Objects/Floor.png")
-FLOOR.add('TOP_LEFT',   (0, 6))
-FLOOR.add('TOP_CENTER', (1, 6))
-FLOOR.add('TOP_RIGHT',  (2, 6))
-FLOOR.add('MID_LEFT',   (0, 7))
-FLOOR.add('MID_CENTER', (1, 7))
-FLOOR.add('MID_RIGHT',  (2, 7))
-FLOOR.add('BOT_LEFT',   (0, 8))
-FLOOR.add('BOT_CENTER', (1, 8))
-FLOOR.add('BOT_RIGHT',  (2, 8))
-FLOOR.add('TOP_LEFT_DARK',   (0, 12))
-FLOOR.add('TOP_CENTER_DARK', (1, 12))
-FLOOR.add('TOP_RIGHT_DARK',  (2, 12))
-FLOOR.add('MID_LEFT_DARK',   (0, 13))
-FLOOR.add('MID_CENTER_DARK', (1, 13))
-FLOOR.add('MID_RIGHT_DARK',  (2, 13))
-FLOOR.add('BOT_LEFT_DARK',   (0, 14))
-FLOOR.add('BOT_CENTER_DARK', (1, 14))
-FLOOR.add('BOT_RIGHT_DARK',  (2, 14))
+        self.GRANITE_WALLS = {
+            'northEast': (0, 6),
+            'north'    : (1, 6),
+            'northWest': (2, 6),
+            'west'     : (0, 7),
+            'center'   : (1, 7),
+            'east'     : (2, 7),
+            'southWest': (0, 8),
+            'south'    : (1, 8),
+            'southEast': (2, 8)
+        }
 
+        self.SLATE_WALLS = {
+            'northEast': (0, 9),
+            'north'    : (1, 9),
+            'northWest': (2, 9),
+            'west'     : (0, 10),
+            'center'   : (1, 10),
+            'east'     : (2, 10),
+            'southWest': (0, 11),
+            'south'    : (1, 11),
+            'southEast': (2, 11)
+        }
 
-WALL = Sheet(SPRITE_WIDTH, SPRITE_HEIGHT, 52, 20, "data/img/Objects/Wall.png")
-WALL.add('TOP_LEFT',   (0, 6))
-WALL.add('TOP_CENTER', (1, 6))
-WALL.add('TOP_RIGHT',  (2, 6))
-WALL.add('MID_LEFT',   (0, 7))
-WALL.add('MID_CENTER', (1, 7))
-WALL.add('MID_RIGHT',  (2, 7))
-WALL.add('BOT_LEFT',   (0, 8))
-WALL.add('BOT_CENTER', (1, 8))
-WALL.add('BOT_RIGHT',  (2, 8))
-WALL.add('TOP_LEFT_DARK',   (0, 12))
-WALL.add('TOP_CENTER_DARK', (1, 12))
-WALL.add('TOP_RIGHT_DARK',  (2, 12))
-WALL.add('MID_LEFT_DARK',   (0, 13))
-WALL.add('MID_CENTER_DARK', (1, 13))
-WALL.add('MID_RIGHT_DARK',  (2, 13))
-WALL.add('BOT_LEFT_DARK',   (0, 14))
-WALL.add('BOT_CENTER_DARK', (1, 14))
-WALL.add('BOT_RIGHT_DARK',  (2, 14))
+        self.OBSIDIAN_WALLS = {
+            'northEast': (0, 12),
+            'north'    : (1, 12),
+            'northWest': (2, 12),
+            'west'     : (0, 13),
+            'center'   : (1, 13),
+            'east'     : (2, 13),
+            'southWest': (0, 14),
+            'south'    : (1, 14),
+            'southEast': (2, 14)
+        }
 
+        # Individual sprites
+        self.S_PLAYER = self.PLAYERS.get((0, 0))
+        self.S_FLOOR = self.FLOOR.get((1, 10))
+        self.S_FLOOR_UNEXPLORED = self.FLOOR.get((1, 1))
 
-# Individual sprites
-S_PLAYER = PLAYERS.get('default')
-S_FLOOR = FLOOR.get('MID_CENTER')
-S_WALL = WALL.get('MID_CENTER')
-S_ENEMY = SLIMES.get('SlimeB')
-S_ENEMY_2 = SLIMES.get('SlimeA')
+        self.S_WALL = self.WALL.get(self.SLATE_WALLS['center'])
+        self.S_WALL_UNEXPLORED = self.WALL.get(self.OBSIDIAN_WALLS['center'])
 
-S_FLOOR_UNEXPLORED = FLOOR.get('MID_CENTER_DARK')
-S_WALL_UNEXPLORED = WALL.get('MID_CENTER_DARK')
+        # New sprites test
+        self.S2_JELLY = self.SLIMES.get((0, 1))
+        self.S2_SLIME = self.SLIMES.get((1, 1))
+        self.S2_BEANO = self.SLIMES.get((2, 1))
+        self.S2_BLODE = self.SLIMES.get((0, 2))
+        self.S2_GAZER = self.SLIMES.get((1, 2))
+        self.S2_SNAIL = self.SLIMES.get((2, 2))
+        self.S2_POKEA = self.SLIMES.get((1, 3))
+        self.S2_POKEB = self.SLIMES.get((2, 3))
+        self.S2_POKEC = self.SLIMES.get((3, 3))
+        self.S2_SPLAT = self.SLIMES.get((0, 4))
+        self.S2_SPLET = self.SLIMES.get((1, 4))
