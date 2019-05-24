@@ -20,8 +20,8 @@ class Sheet:
         
     
     def index(self, loc):
-        '''loc should be a tuple of (row, col)'''
-        return self.image.subsurface((loc[1] * self.width, loc[0] * self.height, self.width, self.height))
+        '''loc should be a tuple of (col, row)'''
+        return self.image.subsurface((loc[0] * self.width, loc[1] * self.height, self.width, self.height))
     
     def add(self, name, loc):
         self.sprites[name] = self.index(loc)
