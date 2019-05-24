@@ -12,6 +12,7 @@ class Game:
         self.level = []
         self.log = Messages.Log()
         self.create_level()
+        self.clock = pygame.time.Clock()
     
     def current_level(self):
         return self.level[-1]
@@ -57,6 +58,8 @@ class Game:
 
         # Render!
         self.render()
+        self.clock.tick(constants.FPS_LIMIT)
+        # self.log.add(f'FPS: {str(int(self.clock.get_fps()))}', 'debug')
         return False
 
     def render(self):
@@ -67,5 +70,5 @@ class Game:
         self.current_level().render(self.surface)
 
         # Update the display
-        self.log.r2(self.surface)
+        self.log.render_lines(self.surface)
         pygame.display.flip()

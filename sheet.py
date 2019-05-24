@@ -59,11 +59,11 @@ class Sheet:
     def index2(self, loc):
         '''loc should be a tuple of (col, row)'''
         return self.image1.subsurface((loc[0] * self.width, loc[1] * self.height, self.width, self.height))
-
-    def get(self, coords, frame = 0):
+    
+    def get(self, coords):
+        image_list = []
+        image_list.append(self.sprites[coords[1]][coords[0]])
         if self.animated:
-            if frame > 0:
-                return self.sprites1[coords[1]][coords[0]]
-
-        return self.sprites[coords[1]][coords[0]]
-            
+            image_list.append(self.sprites1[coords[1]][coords[0]])
+        return image_list
+        

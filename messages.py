@@ -11,7 +11,7 @@ class Log:
     def add(self, message, level):
         self.messages.append((level, message))
     
-    def r2(self, surface):
+    def render_lines(self, surface):
         pos = self.lines if len(self.messages) >= self.lines else len(self.messages)
         lines = self.messages[-pos:]
 
@@ -23,7 +23,7 @@ class Log:
             y += self.font_height
 
     def render(self, text, coords, surface):
-        text_surface, text_rect = self.create_text_surface(text, constants.COLOR_WHITE)
+        text_surface, text_rect = self.create_text_surface(text, constants.COLOR_GREY)
         text_rect.topleft = coords
         surface.blit(text_surface, text_rect)
 

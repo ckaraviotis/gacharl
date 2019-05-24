@@ -73,11 +73,11 @@ class Sprites:
 
         # Individual sprites
         self.S_PLAYER = self.sheets['player'].get((6, 3))
-        self.S_FLOOR = self.sheets['floor'].get((1, 10))
-        self.S_FLOOR_UNEXPLORED = self.sheets['floor'].get((1, 13))
+        self.S_FLOOR = self.sheets['floor'].get((1, 10))[0]
+        self.S_FLOOR_UNEXPLORED = self.sheets['floor'].get((1, 13))[0]
 
-        self.S_WALL = self.sheets['wall'].get(self.walls['slate']['center'])
-        self.S_WALL_UNEXPLORED = self.sheets['wall'].get(self.walls['obsidian']['center'])
+        self.S_WALL = self.sheets['wall'].get(self.walls['slate']['center'])[0]
+        self.S_WALL_UNEXPLORED = self.sheets['wall'].get(self.walls['obsidian']['center'])[0]
 
         # New sprites test
         self.S2_JELLY = self.sheets['slime'].get((0, 1))

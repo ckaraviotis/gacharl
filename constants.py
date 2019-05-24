@@ -4,6 +4,8 @@ pygame.init()
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
 
+FPS_LIMIT = 60
+
 # Color defs
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
