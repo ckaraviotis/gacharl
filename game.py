@@ -7,7 +7,7 @@ import level as Level
 class Game:
     def __init__(self):
         self.sprites = sprites.Sprites()
-        self.surface = pygame.display.set_mode((constants.MAP_WIDTH * self.sprites.SPRITE_WIDTH, constants.MAP_HEIGHT * self.sprites.SPRITE_HEIGHT))
+        self.surface = pygame.display.set_mode((constants.MAP_WIDTH * self.sprites.width, constants.MAP_HEIGHT * self.sprites.height))
         self.sprites.load()
         self.level = []
         self.log = Messages.Log()

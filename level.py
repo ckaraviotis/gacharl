@@ -59,9 +59,9 @@ class Level:
         ec2 = Creature('Blob B', 15, d2)
         ai = Ai_Test()
         ai2 = Ai_Test()
-        player = Actor(1, 1, self.sprites.SPRITE_WIDTH, self.sprites.SPRITE_HEIGHT, self.sprites.S_PLAYER, 'Human', self.game.log, pc)
-        enemy = Actor(10, 5, self.sprites.SPRITE_WIDTH, self.sprites.SPRITE_HEIGHT, self.sprites.S2_BLODE, 'Slime', self.game.log, ec, ai)
-        enemy2 = Actor(15, 3, self.sprites.SPRITE_WIDTH, self.sprites.SPRITE_HEIGHT, self.sprites.S2_BEANO, 'Slime', self.game.log, ec2, ai2)
+        player = Actor(1, 1, self.sprites.width, self.sprites.height, self.sprites.S_PLAYER, 'Human', self.game.log, pc)
+        enemy = Actor(10, 5, self.sprites.width, self.sprites.height, self.sprites.S2_BLODE, 'Slime', self.game.log, ec, ai)
+        enemy2 = Actor(15, 3, self.sprites.width, self.sprites.height, self.sprites.S2_BEANO, 'Slime', self.game.log, ec2, ai2)
         npcs = [enemy, enemy2]
 
         self.player = player
@@ -78,18 +78,18 @@ class Level:
                     self.level[x][y].explored = True
                     if self.level[x][y].passable:
                         # draw floor
-                        surface.blit(self.sprites.S_FLOOR, (x * self.sprites.SPRITE_WIDTH, y * self.sprites.SPRITE_HEIGHT))
+                        surface.blit(self.sprites.S_FLOOR, (x * self.sprites.width, y * self.sprites.height))
                     else:
                         # draw wall
-                        surface.blit(self.sprites.S_WALL, (x * self.sprites.SPRITE_WIDTH, y * self.sprites.SPRITE_HEIGHT))
+                        surface.blit(self.sprites.S_WALL, (x * self.sprites.width, y * self.sprites.height))
                 else:
                     if self.level[x][y].explored:
                         if self.level[x][y].passable:
                             # draw floor
-                            surface.blit(self.sprites.S_FLOOR_UNEXPLORED, (x * self.sprites.SPRITE_WIDTH, y * self.sprites.SPRITE_HEIGHT))
+                            surface.blit(self.sprites.S_FLOOR_UNEXPLORED, (x * self.sprites.width, y * self.sprites.height))
                         else:
                             # draw wall
-                            surface.blit(self.sprites.S_WALL_UNEXPLORED, (x * self.sprites.SPRITE_WIDTH, y * self.sprites.SPRITE_HEIGHT))
+                            surface.blit(self.sprites.S_WALL_UNEXPLORED, (x * self.sprites.width, y * self.sprites.height))
     
         for npc in self.npcs:
             if self.is_visible(npc.x, npc.y):

@@ -3,21 +3,27 @@ from sheet import Sheet
 class Sprites:
     def __init__(self):
         # Sprites!
-        self.SOURCE_WIDTH = 16
-        self.SOURCE_HEIGHT = 16
-        self.SCALE_MULT = 3
+        self.source_width = 16
+        self.source_height = 16
+        self.scale = 3
 
-        self.SPRITE_WIDTH = self.SOURCE_WIDTH * self.SCALE_MULT
-        self.SPRITE_HEIGHT = self.SOURCE_HEIGHT * self.SCALE_MULT
+        self.width = self.source_width * self.scale
+        self.height = self.source_height * self.scale
+
+        self.sheets = {}
+        self.walls = {}
+        self.floors = {}
+        self.slimes = {}
+        self.players = {}
 
     def load(self):
         # Sprite Sheets
-        self.PLAYERS = Sheet(self.SPRITE_WIDTH, self.SPRITE_HEIGHT, self.SCALE_MULT, "data/img/Characters/Player")
-        self.SLIMES = Sheet(self.SPRITE_WIDTH, self.SPRITE_HEIGHT, self.SCALE_MULT, "data/img/Characters/Slime")
-        self.FLOOR = Sheet(self.SPRITE_WIDTH, self.SPRITE_HEIGHT, self.SCALE_MULT, "data/img/Objects/Floor", False)
-        self.WALL = Sheet(self.SPRITE_WIDTH, self.SPRITE_HEIGHT, self.SCALE_MULT, "data/img/Objects/Wall", False)
+        self.sheets['player'] = Sheet(self.width, self.height, self.scale, "data/img/Characters/Player")
+        self.sheets['slime'] = Sheet(self.width, self.height, self.scale, "data/img/Characters/Slime")
+        self.sheets['floor'] = Sheet(self.width, self.height, self.scale, "data/img/Objects/Floor", False)
+        self.sheets['wall'] = Sheet(self.width, self.height, self.scale, "data/img/Objects/Wall", False)
 
-        self.MARBLE_WALLS = {
+        self.walls['marble'] = {
             'northEast': (0, 3),
             'north'    : (1, 3),
             'northWest': (2, 3),
@@ -29,7 +35,7 @@ class Sprites:
             'southEast': (2, 5)
         }
 
-        self.GRANITE_WALLS = {
+        self.walls['granite'] = {
             'northEast': (0, 6),
             'north'    : (1, 6),
             'northWest': (2, 6),
@@ -41,7 +47,7 @@ class Sprites:
             'southEast': (2, 8)
         }
 
-        self.SLATE_WALLS = {
+        self.walls['slate'] = {
             'northEast': (0, 9),
             'north'    : (1, 9),
             'northWest': (2, 9),
@@ -53,7 +59,7 @@ class Sprites:
             'southEast': (2, 11)
         }
 
-        self.OBSIDIAN_WALLS = {
+        self.walls['obsidian'] = {
             'northEast': (0, 12),
             'north'    : (1, 12),
             'northWest': (2, 12),
@@ -66,22 +72,22 @@ class Sprites:
         }
 
         # Individual sprites
-        self.S_PLAYER = self.PLAYERS.get((0, 0))
-        self.S_FLOOR = self.FLOOR.get((1, 10))
-        self.S_FLOOR_UNEXPLORED = self.FLOOR.get((1, 1))
+        self.S_PLAYER = self.sheets['player'].get((6, 3))
+        self.S_FLOOR = self.sheets['floor'].get((1, 10))
+        self.S_FLOOR_UNEXPLORED = self.sheets['floor'].get((1, 13))
 
-        self.S_WALL = self.WALL.get(self.SLATE_WALLS['center'])
-        self.S_WALL_UNEXPLORED = self.WALL.get(self.OBSIDIAN_WALLS['center'])
+        self.S_WALL = self.sheets['wall'].get(self.walls['slate']['center'])
+        self.S_WALL_UNEXPLORED = self.sheets['wall'].get(self.walls['obsidian']['center'])
 
         # New sprites test
-        self.S2_JELLY = self.SLIMES.get((0, 1))
-        self.S2_SLIME = self.SLIMES.get((1, 1))
-        self.S2_BEANO = self.SLIMES.get((2, 1))
-        self.S2_BLODE = self.SLIMES.get((0, 2))
-        self.S2_GAZER = self.SLIMES.get((1, 2))
-        self.S2_SNAIL = self.SLIMES.get((2, 2))
-        self.S2_POKEA = self.SLIMES.get((1, 3))
-        self.S2_POKEB = self.SLIMES.get((2, 3))
-        self.S2_POKEC = self.SLIMES.get((3, 3))
-        self.S2_SPLAT = self.SLIMES.get((0, 4))
-        self.S2_SPLET = self.SLIMES.get((1, 4))
+        self.S2_JELLY = self.sheets['slime'].get((0, 1))
+        self.S2_SLIME = self.sheets['slime'].get((1, 1))
+        self.S2_BEANO = self.sheets['slime'].get((2, 1))
+        self.S2_BLODE = self.sheets['slime'].get((0, 2))
+        self.S2_GAZER = self.sheets['slime'].get((1, 2))
+        self.S2_SNAIL = self.sheets['slime'].get((2, 2))
+        self.S2_POKEA = self.sheets['slime'].get((1, 3))
+        self.S2_POKEB = self.sheets['slime'].get((2, 3))
+        self.S2_POKEC = self.sheets['slime'].get((3, 3))
+        self.S2_SPLAT = self.sheets['slime'].get((0, 4))
+        self.S2_SPLET = self.sheets['slime'].get((1, 4))
