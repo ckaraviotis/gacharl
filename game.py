@@ -10,7 +10,7 @@ class Game:
     def __init__(self):
         self.assets = Assets.Assets()
         self.surface = pygame.display.set_mode((constants.MAP_WIDTH * self.assets.sprites.width, constants.MAP_HEIGHT * self.assets.sprites.height))
-        
+
         # Load the sprites - called AFTER the display is initialized
         self.assets.load_sprites()
 
@@ -18,13 +18,13 @@ class Game:
         self.log = Messages.Log(self.assets.fonts['log'])
         self.create_level()
         self.clock = pygame.time.Clock()
-    
+
     def current_level(self):
         return self.level[-1]
-    
+
     def create_level(self):
         self.level.append(Level.Level(self, constants.MAP_WIDTH, constants.MAP_HEIGHT))
-    
+
     def update(self):
         events = pygame.event.get()
         ai_move = False
@@ -51,7 +51,7 @@ class Game:
                 if event.key == pygame.K_PERIOD:
                     level.player.creature.move(0, 0, level)
                     ai_move = True
-        
+
         # Handle FOV
         level.calculate_fov(level.player.x, level.player.y, 8)
 

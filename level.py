@@ -8,7 +8,7 @@ class Tile:
         self.explored = False
         self.sprite = None
         self.sprite_unexplored = None
-    
+
     def render(self, surface, x, y, visible):
         if self.explored:
             if visible:
@@ -35,16 +35,16 @@ class Level:
         self.game = game
         self.player = None
         self.npcs = None
-        self.game_objects = self.populate()        
+        self.game_objects = self.populate()
         self.fov_map = None
         self.generate()
-    
+
     def is_passable(self, x, y):
         return self.level[x][y].passable
-    
+
     def is_visible(self, x, y):
         return libtcod.map_is_in_fov(self.fov_map, x, y)
-    
+
     def get_creature(self, x, y, player):
         for o in self.game_objects:
             if (o is not player and o.x == x and o.y == y and o.creature):
@@ -65,11 +65,11 @@ class Level:
         for x in range(self.width):
             new_map[x][0]  = Wall(sprites)
             new_map[x][self.height-1]  = Wall(sprites)
-        
+
         for y in range(self.height):
             new_map[0][y] = Wall(sprites)
             new_map[self.width-1][y] = Wall(sprites)
-        
+
         self.level = new_map
         self.generate_fov()
 
@@ -103,11 +103,11 @@ class Level:
                 if is_visible:
                     self.level[x][y].explored = True
                 self.level[x][y].render(surface, x * sprites.width, y * sprites.height, is_visible)
-    
+
         for npc in self.npcs:
             if self.is_visible(npc.x, npc.y):
                 npc.render(surface)
-        
+
         self.player.render(surface)
 
     def generate_fov(self):
@@ -117,7 +117,7 @@ class Level:
             for x in range(self.width):
                 passable = self.is_passable(x, y)
                 libtcod.map_set_properties(fov_map, x, y, passable, passable)
-        
+
         self.fov_map = fov_map
 
     def calculate_fov(self, x, y, radius):

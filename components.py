@@ -9,7 +9,7 @@ class Creature:
         self.owner = None
         if on_death:
             on_death.owner = self
-    
+
     def take_damage(self, damage):
         self.hp -= damage
         self.owner.messages.add(f'{self.name} takes {damage} damage!', 'info')
@@ -17,7 +17,7 @@ class Creature:
         if self.hp <= 0:
             if self.on_death:
                 self.on_death.trigger()
-    
+
     def move(self, dx, dy, level):
         """Move the Creature
 
@@ -28,14 +28,14 @@ class Creature:
 
         dest_passable = level.is_passable(dest_x, dest_y)
         tile_occupant = level.get_creature(dest_x, dest_y, self.owner)
-        
+
         if tile_occupant:
             self.attack(tile_occupant, 5)
 
         elif dest_passable:
             self.owner.x = dest_x
             self.owner.y = dest_y
-    
+
     def attack(self, target, damage):
         self.owner.messages.add(self.owner.creature.name + ' attacks ' + target.creature.name, 'info')
         target.creature.take_damage(damage)
