@@ -6,6 +6,27 @@ class Tile:
     def __init__(self, passable):
         self.passable = passable
         self.explored = False
+        self.sprite = None
+        self.sprite_unexplored = None
+    
+    def render(self, surface, x, y, visible):
+        if self.explored:
+            if visible:
+                surface.blit(self.sprite, (x, y))
+            else:
+                surface.blit(self.sprite_unexplored, (x, y))
+
+class Wall(Tile):
+    def __init__(self, sprites):
+        super().__init__(False)
+        self.sprite = sprites.S_WALL
+        self.sprite_unexplored = sprites.S_WALL_UNEXPLORED
+
+class Floor(Tile):
+    def __init__(self, sprites):
+        super().__init__(True)
+        self.sprite = sprites.S_FLOOR
+        self.sprite_unexplored = sprites.S_FLOOR_UNEXPLORED
 
 class Level:
     def __init__(self, game, width, height):
@@ -32,20 +53,22 @@ class Level:
 
     def generate(self):
         ''' Generate a map '''
-        new_map = [[Tile(True) for y in range(0, self.height)] for x in range(0, self.width)]
+        sprites = self.game.assets.sprites
 
-        new_map[5][5].passable = False
-        new_map[5][10].passable = False
-        new_map[10][5].passable = False
-        new_map[10][10].passable = False
+        new_map = [[Floor(sprites) for y in range(0, self.height)] for x in range(0, self.width)]
+
+        new_map[5][5] = Wall(sprites)
+        new_map[5][10] = Wall(sprites)
+        new_map[10][5] = Wall(sprites)
+        new_map[10][10] = Wall(sprites)
 
         for x in range(self.width):
-            new_map[x][0].passable = False
-            new_map[x][self.height-1].passable = False
+            new_map[x][0]  = Wall(sprites)
+            new_map[x][self.height-1]  = Wall(sprites)
         
         for y in range(self.height):
-            new_map[0][y].passable = False
-            new_map[self.width-1][y].passable = False
+            new_map[0][y] = Wall(sprites)
+            new_map[self.width-1][y] = Wall(sprites)
         
         self.level = new_map
         self.generate_fov()
@@ -78,21 +101,14 @@ class Level:
                 is_visible = self.is_visible(x, y)
 
                 if is_visible:
-                    self.level[x][y].explored = True
-                    if self.level[x][y].passable:
-                        # draw floor
-                        surface.blit(sprites.S_FLOOR, (x * sprites.width, y * sprites.height))
-                    else:
-                        # draw wall
-                        surface.blit(sprites.S_WALL, (x * sprites.width, y * sprites.height))
-                else:
-                    if self.level[x][y].explored:
-                        if self.level[x][y].passable:
-                            # draw floor
-                            surface.blit(sprites.S_FLOOR_UNEXPLORED, (x * sprites.width, y * sprites.height))
-                        else:
-                            # draw wall
-                            surface.blit(sprites.S_WALL_UNEXPLORED, (x * sprites.width, y * sprites.height))
+                    self.level[x][y].explored = True                    
+                    # if self.level[x][y].passable:
+                    #     # draw floor
+                    #     surface.blit(sprites.S_FLOOR, (x * sprites.width, y * sprites.height))
+                    # else:
+                    #     # draw wall
+                    #     surface.blit(sprites.S_WALL, (x * sprites.width, y * sprites.height))
+                self.level[x][y].render(surface, x * sprites.width, y * sprites.height, is_visible)
     
         for npc in self.npcs:
             if self.is_visible(npc.x, npc.y):
