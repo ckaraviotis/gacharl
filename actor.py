@@ -2,26 +2,38 @@
 import constants
 
 class Actor:
-    def __init__(self, x, y, w, h, sprite, name, messages, creature = None, ai = None):
+    def __init__(self, x, y, w, h, sprite, name, messages, alive = True, creature = None, ai = None, container = None, item = None):
+        self.name = name
+        self.messages = messages
+        self.alive = alive
+
+        # Dimensions
         self.x = x
         self.y = y
         self.w = w
         self.h = h
+
+        # Sprites & animations
         self.sprite = sprite
-        self.name = name
-        self.creature = creature
-        self.ai = ai
-        self.messages = messages
-        self.alive = True
         self.animation_speed = 0.5
         self.animation_timer = 0
         self.animation_change = constants.FPS_LIMIT * self.animation_speed
         self.animation_reset = constants.FPS_LIMIT
 
+        # Components
+        self.creature = creature
+        self.ai = ai
+        self.container = container
+        self.item = item
+
         if creature:
             creature.owner = self
         if ai:
             ai.owner = self
+        if container:
+            container.owner = self
+        if item:
+            item.owner = self
 
     def render(self, surface):
          # Draw character

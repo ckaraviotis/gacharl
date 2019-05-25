@@ -79,6 +79,8 @@ class Sprites:
         self.S_WALL = self.sheets['wall'].get(self.walls['slate']['center'])[0]
         self.S_WALL_UNEXPLORED = self.sheets['wall'].get(self.walls['obsidian']['center'])[0]
 
+        self.S_DBG_ITEM = self.sheets['slime'].get((1, 4))
+
 
         # Animated Sprites
         self.S_PLAYER = self.sheets['player'].get((6, 3))

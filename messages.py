@@ -8,7 +8,7 @@ class Log:
         self.font_height = self.get_font_height()
         self.lines = 8
 
-    def add(self, message, level):
+    def add(self, message, level = 'debug'):
         self.messages.append((level, message))
 
     def render_lines(self, surface):

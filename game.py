@@ -51,6 +51,17 @@ class Game:
                 if event.key == pygame.K_PERIOD:
                     level.player.creature.move(0, 0, level)
                     ai_move = True
+                if event.key == pygame.K_g:
+                    objects = level.get_objects(level.player.x, level.player.y)
+
+                    for o in objects:
+                        if o.item:
+                            o.item.pick_up(level.player)
+                if event.key == pygame.K_d:
+                    items = level.player.container.contents
+                    for i in items:
+                        i.drop(level.player.x, level.player.y)
+
 
         # Handle FOV
         level.calculate_fov(level.player.x, level.player.y, 8)

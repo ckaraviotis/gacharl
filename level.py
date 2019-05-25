@@ -1,6 +1,5 @@
 import libtcodpy as libtcod
-from actor import Actor
-from components import Creature, Ai_Test, Death_Test
+import creature_factory as cf
 
 class Tile:
     def __init__(self, passable):
@@ -51,6 +50,11 @@ class Level:
                 return o
         return None
 
+    def get_objects(self, x, y):
+        """Get a list of all objects on tile x,y"""
+        return [o for o in self.game_objects
+                    if (o.x == x and o.y == y)]
+
     def generate(self):
         ''' Generate a map '''
         sprites = self.game.assets.sprites
@@ -74,23 +78,27 @@ class Level:
         self.generate_fov()
 
     def populate(self):
-        sprites = self.game.assets.sprites
+        create = cf.CreatureFactory(self)
 
-        d = Death_Test()
-        d2 = Death_Test()
-        pc = Creature('Bert', 40)
-        ec = Creature('Blob', 5, d)
-        ec2 = Creature('Blob B', 15, d2)
-        ai = Ai_Test()
-        ai2 = Ai_Test()
-        player = Actor(1, 1, sprites.width, sprites.height, sprites.S_PLAYER, 'Human', self.game.log, pc)
-        enemy = Actor(10, 5, sprites.width, sprites.height, sprites.S2_BLODE, 'Slime', self.game.log, ec, ai)
-        enemy2 = Actor(15, 3, sprites.width, sprites.height, sprites.S2_BEANO, 'Slime', self.game.log, ec2, ai2)
-        npcs = [enemy, enemy2]
+        # Create player
+        player = create.player(1, 1)
+
+        # Create enemy 1
+        blode = create.blode(10, 4)
+
+        # Create enemy 2
+        beano = create.beano(15, 8)
+
+        # Create item
+        thing = create.debugItem(3, 3)
+
+        npcs = [blode, beano]
+        items = [thing]
 
         self.player = player
         self.npcs = npcs
-        return [player] + npcs
+        self.items = items
+        return [player] + npcs + items
 
     def render(self, surface):
         ''' The map rendering method '''
@@ -103,6 +111,10 @@ class Level:
                 if is_visible:
                     self.level[x][y].explored = True
                 self.level[x][y].render(surface, x * sprites.width, y * sprites.height, is_visible)
+
+        for item in self.items:
+            if self.is_visible(item.x, item.y):
+                item.render(surface)
 
         for npc in self.npcs:
             if self.is_visible(npc.x, npc.y):
