@@ -9,10 +9,12 @@ class Assets:
 
     def load_fonts(self):
         font_debug = pygame.font.Font('data/fonts/Bebas-Regular.ttf', 24)
+        font_menu = pygame.font.Font('data/fonts/Bebas-Regular.ttf', 48)
         font_log = pygame.font.Font('data/fonts/SDS_8x8.ttf', 12)
         return {
             'debug': font_debug,
-            'log'  : font_log
+            'log'  : font_log,
+            'menu' : font_menu
         }
 
     def load_sprites(self):

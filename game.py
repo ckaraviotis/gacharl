@@ -5,6 +5,7 @@ import constants
 import messages as Messages
 import level as Level
 import assets as Assets
+import menus as Menus
 
 class Game:
     def __init__(self):
@@ -18,6 +19,7 @@ class Game:
         self.log = Messages.Log(self.assets.fonts['log'])
         self.create_level()
         self.clock = pygame.time.Clock()
+        self.paused = False
 
     def current_level(self):
         return self.level[-1]
@@ -96,3 +98,19 @@ class Game:
                     for i in items:
                         i.drop(level.player.x, level.player.y)
                     return 'player-action'
+                if event.key == pygame.K_p:
+                    self.menu_pause()
+
+    def menu_pause(self):
+        menu_closed = False
+
+        menu = Menus.PauseMenu(self.surface, self.assets)
+
+
+        while not menu_closed:
+            menu.render()
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_p:
+                        menu_closed = True
