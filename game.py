@@ -1,16 +1,21 @@
+'''Main Game container object'''
+# pylint: disable=no-member
 import pygame
 import constants
-import sprites_dawn as sprites
 import messages as Messages
 import level as Level
+import assets as Assets
 
 class Game:
     def __init__(self):
-        self.sprites = sprites.Sprites()
-        self.surface = pygame.display.set_mode((constants.MAP_WIDTH * self.sprites.width, constants.MAP_HEIGHT * self.sprites.height))
-        self.sprites.load()
+        self.assets = Assets.Assets()
+        self.surface = pygame.display.set_mode((constants.MAP_WIDTH * self.assets.sprites.width, constants.MAP_HEIGHT * self.assets.sprites.height))
+        
+        # Load the sprites - called AFTER the display is initialized
+        self.assets.load_sprites()
+
         self.level = []
-        self.log = Messages.Log()
+        self.log = Messages.Log(self.assets.fonts['log'])
         self.create_level()
         self.clock = pygame.time.Clock()
     

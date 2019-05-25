@@ -1,6 +1,7 @@
 '''
 Main Game
 '''
+# pylint: disable=no-member
 import pygame
 import game as Game
 

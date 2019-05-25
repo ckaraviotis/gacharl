@@ -9,7 +9,6 @@ class Tile:
 
 class Level:
     def __init__(self, game, width, height):
-        self.sprites = game.sprites
         self.width = width
         self.height = height
         self.game = game
@@ -52,6 +51,8 @@ class Level:
         self.generate_fov()
 
     def populate(self):
+        sprites = self.game.assets.sprites
+
         d = Death_Test()
         d2 = Death_Test()
         pc = Creature('Bert', 40)
@@ -59,9 +60,9 @@ class Level:
         ec2 = Creature('Blob B', 15, d2)
         ai = Ai_Test()
         ai2 = Ai_Test()
-        player = Actor(1, 1, self.sprites.width, self.sprites.height, self.sprites.S_PLAYER, 'Human', self.game.log, pc)
-        enemy = Actor(10, 5, self.sprites.width, self.sprites.height, self.sprites.S2_BLODE, 'Slime', self.game.log, ec, ai)
-        enemy2 = Actor(15, 3, self.sprites.width, self.sprites.height, self.sprites.S2_BEANO, 'Slime', self.game.log, ec2, ai2)
+        player = Actor(1, 1, sprites.width, sprites.height, sprites.S_PLAYER, 'Human', self.game.log, pc)
+        enemy = Actor(10, 5, sprites.width, sprites.height, sprites.S2_BLODE, 'Slime', self.game.log, ec, ai)
+        enemy2 = Actor(15, 3, sprites.width, sprites.height, sprites.S2_BEANO, 'Slime', self.game.log, ec2, ai2)
         npcs = [enemy, enemy2]
 
         self.player = player
@@ -70,6 +71,8 @@ class Level:
 
     def render(self, surface):
         ''' The map rendering method '''
+        sprites = self.game.assets.sprites
+
         for x in range(0, self.width):
             for y in range(0, self.height):
                 is_visible = self.is_visible(x, y)
@@ -78,18 +81,18 @@ class Level:
                     self.level[x][y].explored = True
                     if self.level[x][y].passable:
                         # draw floor
-                        surface.blit(self.sprites.S_FLOOR, (x * self.sprites.width, y * self.sprites.height))
+                        surface.blit(sprites.S_FLOOR, (x * sprites.width, y * sprites.height))
                     else:
                         # draw wall
-                        surface.blit(self.sprites.S_WALL, (x * self.sprites.width, y * self.sprites.height))
+                        surface.blit(sprites.S_WALL, (x * sprites.width, y * sprites.height))
                 else:
                     if self.level[x][y].explored:
                         if self.level[x][y].passable:
                             # draw floor
-                            surface.blit(self.sprites.S_FLOOR_UNEXPLORED, (x * self.sprites.width, y * self.sprites.height))
+                            surface.blit(sprites.S_FLOOR_UNEXPLORED, (x * sprites.width, y * sprites.height))
                         else:
                             # draw wall
-                            surface.blit(self.sprites.S_WALL_UNEXPLORED, (x * self.sprites.width, y * self.sprites.height))
+                            surface.blit(sprites.S_WALL_UNEXPLORED, (x * sprites.width, y * sprites.height))
     
         for npc in self.npcs:
             if self.is_visible(npc.x, npc.y):

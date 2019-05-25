@@ -1,6 +1,5 @@
 '''A simple sprite sheet'''
 import pygame
-pygame.init()
 
 class Sheet:
     def __init__(self, width, height, scale, image, animated = True):
@@ -47,8 +46,7 @@ class Sheet:
             self.sprites.append(r)
             if self.animated:
                 self.sprites1.append(r2)
-        
-        msg = 'init done'
+
 
         
     # TODO: Refactor this jesus

@@ -1,10 +1,10 @@
 import constants
 
 class Log:
-    def __init__(self):
+    def __init__(self, font):
         self.messages = []
         self.messages.append(('debug', 'Log initialized'))
-        self.font = constants.FONT_DBG2
+        self.font = font
         self.font_height = self.get_font_height()
         self.lines = 8
     

@@ -1,3 +1,4 @@
+# pylint: disable=no-member
 import pygame
 pygame.init()
 
@@ -18,7 +19,3 @@ COLOR_DARK_BG = COLOR_DARK_GREY
 # Map vars
 MAP_WIDTH = 25
 MAP_HEIGHT = 15
-
-# Fontttttts
-FONT_DBG = pygame.font.Font('data/fonts/Bebas-Regular.ttf', 24)
-FONT_DBG2 = pygame.font.Font('data/fonts/SDS_8x8.ttf', 12)
