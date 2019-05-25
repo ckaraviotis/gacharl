@@ -101,13 +101,7 @@ class Level:
                 is_visible = self.is_visible(x, y)
 
                 if is_visible:
-                    self.level[x][y].explored = True                    
-                    # if self.level[x][y].passable:
-                    #     # draw floor
-                    #     surface.blit(sprites.S_FLOOR, (x * sprites.width, y * sprites.height))
-                    # else:
-                    #     # draw wall
-                    #     surface.blit(sprites.S_WALL, (x * sprites.width, y * sprites.height))
+                    self.level[x][y].explored = True
                 self.level[x][y].render(surface, x * sprites.width, y * sprites.height, is_visible)
     
         for npc in self.npcs:
