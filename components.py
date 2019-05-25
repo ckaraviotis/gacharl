@@ -46,10 +46,11 @@ class Death_Test:
         self.owner = None
 
     def trigger(self):
-        self.owner.owner.messages.add(f'{self.owner.name} dies!', 'info')
-        self.owner.owner.creature = None
-        self.owner.owner.ai = None
-        self.owner.owner.alive = False
+        creature = self.owner
+        creature.owner.messages.add(f'{self.owner.name} dies!', 'info')
+        creature.owner.creature = None
+        creature.owner.ai = None
+        creature.owner.alive = False
 
 '''
 Very Stupid AI component
