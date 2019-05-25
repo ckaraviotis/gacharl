@@ -26,48 +26,22 @@ class Game:
         self.level.append(Level.Level(self, constants.MAP_WIDTH, constants.MAP_HEIGHT))
 
     def update(self):
+        """
+        Update all game logic etc.
+        Returns True if the game has quit
+        """
         events = pygame.event.get()
-        ai_move = False
-
         level = self.current_level()
+        action = self.handle_keys(events, level)
 
-        # Process events this frame
-        for event in events:
-            if event.type == pygame.QUIT:
-                return True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    level.player.creature.move(0, -1, level)
-                    ai_move = True
-                if event.key == pygame.K_DOWN:
-                    level.player.creature.move(0, 1, level)
-                    ai_move = True
-                if event.key == pygame.K_LEFT:
-                    level.player.creature.move(-1, 0, level)
-                    ai_move = True
-                if event.key == pygame.K_RIGHT:
-                    level.player.creature.move(1, 0, level)
-                    ai_move = True
-                if event.key == pygame.K_PERIOD:
-                    level.player.creature.move(0, 0, level)
-                    ai_move = True
-                if event.key == pygame.K_g:
-                    objects = level.get_objects(level.player.x, level.player.y)
-
-                    for o in objects:
-                        if o.item:
-                            o.item.pick_up(level.player)
-                if event.key == pygame.K_d:
-                    items = level.player.container.contents
-                    for i in items:
-                        i.drop(level.player.x, level.player.y)
-
+        if action == 'quit':
+            return True
 
         # Handle FOV
         level.calculate_fov(level.player.x, level.player.y, 8)
 
         # Ai Turns
-        if ai_move:
+        if action == 'player-action':
             for npc in level.npcs:
                 if npc.ai:
                     npc.ai.turn(level)
@@ -88,3 +62,37 @@ class Game:
         # Update the display
         self.log.render_lines(self.surface)
         pygame.display.flip()
+
+    def handle_keys(self, events, level):
+        # Process events this frame
+        for event in events:
+            if event.type == pygame.QUIT:
+                return 'quit'
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    level.player.creature.move(0, -1, level)
+                    return 'player-action'
+                if event.key == pygame.K_DOWN:
+                    level.player.creature.move(0, 1, level)
+                    return 'player-action'
+                if event.key == pygame.K_LEFT:
+                    level.player.creature.move(-1, 0, level)
+                    return 'player-action'
+                if event.key == pygame.K_RIGHT:
+                    level.player.creature.move(1, 0, level)
+                    return 'player-action'
+                if event.key == pygame.K_PERIOD:
+                    level.player.creature.move(0, 0, level)
+                    return 'player-action'
+                if event.key == pygame.K_g:
+                    objects = level.get_objects(level.player.x, level.player.y)
+
+                    for o in objects:
+                        if o.item:
+                            o.item.pick_up(level.player)
+                    return 'player-action'
+                if event.key == pygame.K_d:
+                    items = level.player.container.contents
+                    for i in items:
+                        i.drop(level.player.x, level.player.y)
+                    return 'player-action'
