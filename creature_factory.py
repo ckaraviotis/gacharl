@@ -32,15 +32,15 @@ class CreatureFactory:
 
     def beano(self, x, y):
         sprites = self.sprites
-        on_death = Death_Test()
+        on_death = drop_corpse()
         alive = True
 
         creature = Creature('Beano', 15, on_death)
         ai = Ai_Test()
         container = None
-        item = None
+        item = Item(self.level)
 
-        beano = Actor(x, y, sprites.width, sprites.height, sprites.S2_BEANO, 'Slime', self.log, alive, creature, ai, container, item)
+        beano = Actor(x, y, sprites.width, sprites.height, sprites.S2_BEANO, 'Bean', self.log, alive, creature, ai, container, item)
         return beano
 
     def debugItem(self, x, y):

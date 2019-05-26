@@ -87,6 +87,7 @@ class Game:
                     level.player.creature.move(0, 0, level)
                     return 'player-action'
                 if event.key == pygame.K_g:
+                    """Get"""
                     objects = level.get_objects(level.player.x, level.player.y)
 
                     for o in objects:
@@ -94,23 +95,16 @@ class Game:
                             o.item.pick_up(level.player)
                     return 'player-action'
                 if event.key == pygame.K_d:
+                    """Drop"""
+                    # TODO: Do we want to access this directly, or have a method on container that handles this?
+                    items = [o.owner.name for o in level.player.container.contents]
+                    menu = Menus.InventoryMenu(self.surface, self.assets, pygame.K_d, items)
+                    menu.display()
                     items = level.player.container.contents
                     for i in items:
                         i.drop(level.player.x, level.player.y)
                     return 'player-action'
                 if event.key == pygame.K_p:
-                    self.menu_pause()
-
-    def menu_pause(self):
-        menu_closed = False
-
-        menu = Menus.PauseMenu(self.surface, self.assets)
-
-
-        while not menu_closed:
-            menu.render()
-            events = pygame.event.get()
-            for event in events:
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_p:
-                        menu_closed = True
+                    """Pause"""
+                    menu = Menus.PauseMenu(self.surface, self.assets, pygame.K_p)
+                    menu.display()
