@@ -19,6 +19,7 @@ def game_main_loop(game):
 def game_init():
     ''' Initialize the main game window & pygame '''
     pygame.init()
+    pygame.key.set_repeat(200, 75)
     return Game.Game()
 
 if __name__ == '__main__':
