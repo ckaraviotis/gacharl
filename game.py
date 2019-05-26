@@ -99,11 +99,15 @@ class Game:
                     # TODO: Do we want to access this directly, or have a method on container that handles this?
                     items = [o for o in level.player.container.contents]
                     menu = Menus.InventoryMenu(self.surface, self.assets, pygame.K_d, items)
-                    menu.display()
-                    items = level.player.container.contents
-                    for i in items:
-                        i.drop(level.player.x, level.player.y)
-                    return 'player-action'
+                    result = menu.display()
+
+                    if result:
+                        print(result.owner.name)
+                        items = level.player.container.contents
+                        for i in items:
+                            if i == result:
+                                i.drop(level.player.x, level.player.y)
+                                return 'player-action'
                 if event.key == pygame.K_p:
                     """Pause"""
                     menu = Menus.PauseMenu(self.surface, self.assets, pygame.K_p)
