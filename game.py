@@ -97,7 +97,7 @@ class Game:
                 if event.key == pygame.K_d:
                     """Drop"""
                     # TODO: Do we want to access this directly, or have a method on container that handles this?
-                    items = [o.owner.name for o in level.player.container.contents]
+                    items = [o for o in level.player.container.contents]
                     menu = Menus.InventoryMenu(self.surface, self.assets, pygame.K_d, items)
                     menu.display()
                     items = level.player.container.contents

@@ -70,10 +70,21 @@ class InventoryMenu:
         menu_surface_rect.center = window_rect.center
 
         # Draw list of items
-        for i, name in enumerate(self.items):
-            height = utils.get_font_height(self.font, name)
-            text_surface = self.font.render(name, False, (80, 100, 150), (0, 0, 0))
-            menu_surface.blit(text_surface, (5, 5 + (i * height)))
+        for i, item in enumerate(self.items):
+            # Icon
+            width = int(item.owner.w*0.5)
+            height = int(item.owner.h*0.5)
+            icon_surface = pygame.Surface((item.owner.w, item.owner.h))
+            icon = pygame.transform.scale(item.owner.sprite[0], (width, height))
+            icon_surface.blit(icon, (0, 0))
+
+            # Text
+            text_surface = self.font.render(item.owner.name, False, (80, 100, 150), (0, 0, 0))
+
+            # Blit surfaces onto menu
+            y = 5 + (i * height)
+            menu_surface.blit(icon_surface, (5, y))
+            menu_surface.blit(text_surface, (10 + width, y + 5))
 
         self.surface.blit(menu_surface, menu_surface_rect)
         pygame.display.flip()
