@@ -1,11 +1,12 @@
 import constants
+import utils
 
 class Log:
     def __init__(self, font):
         self.messages = []
         self.messages.append(('debug', 'Log initialized'))
         self.font = font
-        self.font_height = self.get_font_height()
+        self.font_height = utils.get_font_height(font, 'a')
         self.lines = 8
 
     def add(self, message, level = 'debug'):
@@ -33,9 +34,4 @@ class Log:
 
     def set_font(self, font):
         self.font = font
-        self.font_height = self.get_font_height()
-
-    def get_font_height(self):
-        fo = self.font.render('a', False, (0,0,0))
-        fr = fo.get_rect()
-        return fr.height
+        self.font_height = utils.get_font_height(font, 'a')
