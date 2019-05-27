@@ -1,5 +1,5 @@
 import libtcodpy as libtcod
-import creature_factory as cf
+import actors.creatures as creature_factory
 
 class Tile:
     def __init__(self, passable):
@@ -78,19 +78,19 @@ class Level:
         self.generate_fov()
 
     def populate(self):
-        create = cf.CreatureFactory(self)
+        creatures = creature_factory.CreatureFactory(self)
 
         # Create player
-        player = create.player(1, 1)
+        player = creatures.player(1, 1)
 
         # Create enemy 1
-        blode = create.blode(10, 4)
+        blode = creatures.blode(10, 4)
 
         # Create enemy 2
-        beano = create.beano(15, 8)
+        beano = creatures.beano(15, 8)
 
         # Create item
-        thing = create.debugItem(3, 3)
+        thing = creatures.debugItem(3, 3)
 
         npcs = [blode, beano]
         items = [thing]
