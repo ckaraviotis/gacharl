@@ -101,7 +101,7 @@ class InventoryMenu:
                 bgcol = constants.COLOR_ATOMIC_TANGERINE
 
             # Text
-            text_surface = self.font.render(item.owner.name, False, constants.COLOR_DARK_MODERATE_BLUE, bgcol)
+            text_surface = self.font.render(item.name, False, constants.COLOR_DARK_MODERATE_BLUE, bgcol)
 
             # Blit surfaces onto menu
             y = 5 + (i * height)

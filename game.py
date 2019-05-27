@@ -102,11 +102,22 @@ class Game:
                     result = menu.display()
 
                     if result:
-                        print(result.owner.name)
                         items = level.player.container.contents
                         for i in items:
                             if i == result:
                                 i.drop(level.player.x, level.player.y)
+                                return 'player-action'
+                if event.key == pygame.K_u:
+                    """Use Item"""
+                    items = [o for o in level.player.container.contents]
+                    menu = Menus.InventoryMenu(self.surface, self.assets, pygame.K_d, items)
+                    result = menu.display()
+
+                    if result:
+                        items = level.player.container.contents
+                        for i in items:
+                            if i == result:
+                                i.use([level.player, 5])
                                 return 'player-action'
                 if event.key == pygame.K_p:
                     """Pause"""

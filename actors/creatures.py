@@ -42,13 +42,3 @@ class CreatureFactory:
 
         beano = Actor(x, y, sprites.width, sprites.height, sprites.S2_BEANO, 'Bean', self.log, alive, creature, ai, container, item)
         return beano
-
-    def debugItem(self, x, y):
-        sprites = self.sprites
-        alive = False
-        creature = None
-        ai = None
-        item = Item(self.level)
-        container = None
-        debugItem = Actor(x, y, sprites.width, sprites.height, sprites.S_DBG_ITEM, 'Item', self.log, alive, creature, ai, container, item)
-        return debugItem

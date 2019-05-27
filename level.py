@@ -1,5 +1,6 @@
 import libtcodpy as libtcod
 import actors.creatures as creature_factory
+import actors.potions as potion_factory
 
 class Tile:
     def __init__(self, passable):
@@ -79,6 +80,7 @@ class Level:
 
     def populate(self):
         creatures = creature_factory.CreatureFactory(self)
+        potions = potion_factory.PotionFactory(self)
 
         # Create player
         player = creatures.player(1, 1)
@@ -90,10 +92,11 @@ class Level:
         beano = creatures.beano(15, 8)
 
         # Create item
-        thing = creatures.debugItem(3, 3)
+        thing = potions.debugItem(3, 3)
+        heal_potion = potions.heal_potion(5, 4)
 
         npcs = [blode, beano]
-        items = [thing]
+        items = [thing, heal_potion]
 
         self.player = player
         self.npcs = npcs

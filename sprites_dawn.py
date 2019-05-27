@@ -22,6 +22,7 @@ class Sprites:
         self.sheets['slime'] = Sheet(self.width, self.height, self.scale, "data/img/Characters/Slime")
         self.sheets['floor'] = Sheet(self.width, self.height, self.scale, "data/img/Objects/Floor", False)
         self.sheets['wall'] = Sheet(self.width, self.height, self.scale, "data/img/Objects/Wall", False)
+        self.sheets['potion'] = Sheet(self.width, self.height, self.scale, "data/img/Items/Potion", False)
 
         self.walls['marble'] = {
             'northEast': (0, 3),
@@ -80,6 +81,8 @@ class Sprites:
         self.S_WALL_UNEXPLORED = self.sheets['wall'].get(self.walls['obsidian']['center'])[0]
 
         self.S_DBG_ITEM = self.sheets['slime'].get((1, 4))
+        # Potions
+        self.S_HEAL_POTION = self.sheets['potion'].get((0, 0))
 
 
         # Animated Sprites
