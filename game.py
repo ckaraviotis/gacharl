@@ -6,6 +6,7 @@ import messages as Messages
 import level as Level
 import assets as Assets
 import menus as Menus
+import effects
 
 class Game:
     def __init__(self):
@@ -131,8 +132,7 @@ class Game:
 
                     for o in objects:
                         if o.creature:
-                            self.log.add(f'You see {o.creature.name} the {o.name}', 'info')
-                            o.creature.take_damage(999)
+                            effects.sunstrike([o, self.log])
 
                     return 'player-KILL'
                 if event.key == pygame.K_l:
