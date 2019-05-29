@@ -123,3 +123,28 @@ class Game:
                     """Pause"""
                     menu = Menus.PauseMenu(self.surface, self.assets, pygame.K_p)
                     menu.display()
+                if event.key == pygame.K_k:
+                    """KILL"""
+                    menu = Menus.SelectMenu(self.surface, self.render, self.assets, pygame.K_l)
+                    result = menu.display()
+                    objects = level.get_objects(result[0], result[1])
+
+                    for o in objects:
+                        if o.creature:
+                            self.log.add(f'You see {o.creature.name} the {o.name}', 'info')
+                            o.creature.take_damage(999)
+
+                    return 'player-KILL'
+                if event.key == pygame.K_l:
+                    """Look"""
+                    menu = Menus.SelectMenu(self.surface, self.render, self.assets, pygame.K_l)
+                    result = menu.display()
+                    objects = level.get_objects(result[0], result[1])
+
+                    for o in objects:
+                        if o.creature:
+                            self.log.add(f'You see {o.creature.name} the {o.name}', 'info')
+                        else:
+                            self.log.add(f'You see a {o.name}', 'info')
+
+                    return 'player-look'

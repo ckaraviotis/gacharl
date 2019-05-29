@@ -133,3 +133,50 @@ class InventoryMenu:
                         closed = True
 
         return self.result()
+
+"""
+Menu to display for cell/target selection
+"""
+class SelectMenu:
+    def __init__(self, surface, out_render, assets, key):
+        self.surface = surface
+        self.font = assets.fonts['menu']
+        self.key = key
+        self.sprite = assets.sprites.S_CELL_HIGHLIGHT
+        self.sp2 = self.sprite.copy()
+        self.sp2.fill((255, 255, 255, 100), None, pygame.BLEND_RGBA_MULT)
+        self.assets = assets
+        self.out_render = out_render
+
+    def render(self):
+        """
+        Draw to screen. Called in the menu while loop
+        """
+        self.out_render()
+
+        # Divide then multiply to get a Floor effect to the nearest tile
+        pos = pygame.mouse.get_pos()
+        cell_pos = ( int(pos[0] / self.assets.sprites.width), int(pos[1] / self.assets.sprites.height))
+        target_pos = (int(cell_pos[0] * self.assets.sprites.width), int(cell_pos[1] * self.assets.sprites.height))
+        self.selected = cell_pos
+
+        self.surface.blit(self.sprite, target_pos)
+        pygame.display.flip()
+
+    def result(self):
+        return self.selected
+
+    def display(self):
+        closed = False
+        while not closed:
+            self.render()
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == self.key:
+                        closed = True
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        closed = True
+
+        return self.result()

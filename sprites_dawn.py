@@ -23,6 +23,8 @@ class Sprites:
         self.sheets['floor'] = Sheet(self.width, self.height, self.scale, "data/img/Objects/Floor", False)
         self.sheets['wall'] = Sheet(self.width, self.height, self.scale, "data/img/Objects/Wall", False)
         self.sheets['potion'] = Sheet(self.width, self.height, self.scale, "data/img/Items/Potion", False)
+        self.sheets['gui'] = Sheet(self.width, self.height, self.scale, "data/img/GUI/GUI")
+        self.sheets['sel'] = Sheet(self.width, self.height, self.scale, "data/img/GUI/trans_select", False)
 
         self.walls['marble'] = {
             'northEast': (0, 3),
@@ -79,6 +81,9 @@ class Sprites:
 
         self.S_WALL = self.sheets['wall'].get(self.walls['slate']['center'])[0]
         self.S_WALL_UNEXPLORED = self.sheets['wall'].get(self.walls['obsidian']['center'])[0]
+
+        # GUI Elements
+        self.S_CELL_HIGHLIGHT = self.sheets['sel'].get((0, 0))[0]
 
         self.S_DBG_ITEM = self.sheets['slime'].get((1, 4))
         # Potions
