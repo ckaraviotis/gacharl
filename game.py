@@ -150,7 +150,7 @@ class Game:
                     return 'player-look'
                 if event.key == pygame.K_y:
                     """Lightning"""
-                    menu = Menus.LineToCellMenu(self, pygame.K_y)
+                    menu = Menus.LineToCellMenu(self, pygame.K_y, True)
                     result = menu.display()
                     effects.lightning([level, self.log, result])
 

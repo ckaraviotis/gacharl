@@ -138,10 +138,11 @@ class Level:
     def calculate_fov(self, x, y, radius):
         libtcod.map_compute_fov(self.fov_map, x, y, radius, True, libtcod.FOV_BASIC)
 
-    def get_line(self, origin, destination):
+    def get_line(self, origin, destination, bypassWalls = False):
         """Return list of all tiles between the two coordinates
         origin: (x, y)
         destination: (x, y)
+        bypassWalls: Flag to allow line to pass through walls
         """
         if (origin == destination):
             return [origin]
@@ -150,8 +151,15 @@ class Level:
         x, y = libtcod.line_step()
         coords = []
 
+        # TODO: Fugly!
         while (not x is None):
-            coords.append((x, y))
+            if bypassWalls:
+                coords.append((x, y))
+            else:
+                if self.is_passable(x, y):
+                    coords.append((x, y))
+                else:
+                    break
 
             if (x, y) == destination:
                 break
