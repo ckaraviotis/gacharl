@@ -51,7 +51,11 @@ class Game:
 
         # Render!
         self.render()
-        self.clock.tick(constants.FPS_LIMIT)
+
+        # Update display outside of render loop. This allows other methods
+        # E.g. Menu render methods to update the display without causing
+        # jitter
+        pygame.display.flip()
         # self.log.add(f'FPS: {str(int(self.clock.get_fps()))}', 'debug')
         return False
 
@@ -64,7 +68,7 @@ class Game:
 
         # Update the display
         self.log.render_lines(self.surface)
-        pygame.display.flip()
+        self.clock.tick(constants.FPS_LIMIT)
 
     def handle_keys(self, events, level):
         # Process events this frame
