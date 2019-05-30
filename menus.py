@@ -208,9 +208,15 @@ class LineToCellMenu:
         line = self.level.get_line((self.level.player.x, self.level.player.y), cell_pos)
         self.selected = line
 
-        for tile in line:
+        for i, tile in enumerate(line):
             corrected = (int(tile[0] * self.assets.sprites.width), int(tile[1] * self.assets.sprites.height))
-            self.surface.blit(self.sprite, corrected)
+            if i == len(line) - 1:
+                self.surface.blit(self.sprite, corrected)
+            else:
+                temp = pygame.Surface((self.assets.sprites.width, self.assets.sprites.height))
+                temp.fill(constants.COLOR_ARYLIDE_YELLOW)
+                temp.set_alpha(80)
+                self.surface.blit(temp, corrected)
 
         pygame.display.flip()
 
