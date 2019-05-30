@@ -128,13 +128,9 @@ class Game:
                     """KILL"""
                     menu = Menus.SelectMenu(self.surface, self.render, self.assets, pygame.K_l)
                     result = menu.display()
-                    objects = level.get_objects(result[0], result[1])
+                    effects.sunstrike([level, self.log, result])
 
-                    for o in objects:
-                        if o.creature:
-                            effects.sunstrike([o, self.log])
-
-                    return 'player-KILL'
+                    return 'player-cast'
                 if event.key == pygame.K_l:
                     """Look"""
                     menu = Menus.SelectMenu(self.surface, self.render, self.assets, pygame.K_l)
@@ -148,3 +144,10 @@ class Game:
                             self.log.add(f'You see a {o.name}', 'info')
 
                     return 'player-look'
+                if event.key == pygame.K_y:
+                    """Lightning"""
+                    menu = Menus.LineToCellMenu(self.surface, self.render, self.assets, pygame.K_y, level, self)
+                    result = menu.display()
+                    effects.lightning([level, self.log, result])
+
+                    return 'player-cast'

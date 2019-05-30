@@ -137,3 +137,24 @@ class Level:
 
     def calculate_fov(self, x, y, radius):
         libtcod.map_compute_fov(self.fov_map, x, y, radius, True, libtcod.FOV_BASIC)
+
+    def get_line(self, origin, destination):
+        """Return list of all tiles between the two coordinates
+        origin: (x, y)
+        destination: (x, y)
+        """
+        if (origin == destination):
+            return [origin]
+
+        libtcod.line_init(origin[0], origin[1], destination[0], destination[1])
+        x, y = libtcod.line_step()
+        coords = []
+
+        while (not x is None):
+            coords.append((x, y))
+
+            if (x, y) == destination:
+                break
+            x, y = libtcod.line_step()
+
+        return coords
