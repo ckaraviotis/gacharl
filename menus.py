@@ -185,7 +185,7 @@ class SelectMenu:
 Menu to display for cell/target selection
 """
 class LineToCellMenu:
-    def __init__(self, game, key, bypassWalls = False):
+    def __init__(self, game, key, bypassWalls = False, ignoreFov = False, limit = None):
         """Constructor
         game: A game instance
         key: The keypress to terminate the menu
@@ -198,6 +198,8 @@ class LineToCellMenu:
         self.out_render = game.render
         self.level = game.current_level()
         self.bypassWalls = bypassWalls
+        self.ignoreFov = ignoreFov
+        self.limit = limit
 
     def render(self):
         """
@@ -209,7 +211,7 @@ class LineToCellMenu:
         pos = pygame.mouse.get_pos()
         cell_pos = ( int(pos[0] / self.assets.sprites.width), int(pos[1] / self.assets.sprites.height))
 
-        line = self.level.get_line((self.level.player.x, self.level.player.y), cell_pos, self.bypassWalls)
+        line = self.level.get_line((self.level.player.x, self.level.player.y), cell_pos, self.bypassWalls, self.ignoreFov, self.limit)
         self.selected = line
 
         for i, tile in enumerate(line):
