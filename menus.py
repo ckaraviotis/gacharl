@@ -185,15 +185,18 @@ class SelectMenu:
 Menu to display for cell/target selection
 """
 class LineToCellMenu:
-    def __init__(self, surface, out_render, assets, key, level, game):
-        self.surface = surface
-        self.font = assets.fonts['menu']
+    def __init__(self, game, key):
+        """Constructor
+        game: A game instance
+        key: The keypress to terminate the menu
+        """
+        self.surface = game.surface
+        self.font = game.assets.fonts['menu']
         self.key = key
-        self.sprite = assets.sprites.S_CELL_HIGHLIGHT
-        self.assets = assets
-        self.out_render = out_render
-        self.level = level
-        self.game = game
+        self.sprite = game.assets.sprites.S_CELL_HIGHLIGHT
+        self.assets = game.assets
+        self.out_render = game.render
+        self.level = game.current_level()
 
     def render(self):
         """
