@@ -42,7 +42,7 @@ class CreatureFactory:
         alive = True
 
         creature = creatures.Creature('Beano', 15, on_death)
-        ai = ais.Ai_Test()
+        ai = ais.basic_chase()
         container = None
         item = items.Item(self.level)
 

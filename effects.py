@@ -3,6 +3,8 @@ Contains triggered effects
 """
 import random
 
+import components.ai as ais
+
 def heal(args):
     """Heal a target for a given amount
     args:
@@ -59,3 +61,20 @@ def lightning(args):
         for o in objects:
             if o.creature:
                 o.creature.take_damage(damage)
+
+def confuse(args):
+    """Confuse the target creature by swapping it's ai
+    args:
+        args: A list containing a level and a line of tiles
+    """
+    level = args[0]
+    log = args[1]
+    coord = args[2]
+    duration = 5
+
+    objects = level.get_objects(coord[0], coord[1])
+    for o in objects:
+        if o.creature:
+            log.add(f'{o.creature.name} looks confused', 'info')
+            prev = o.ai
+            o.ai = ais.ai_confuse(prev, duration, o, log)

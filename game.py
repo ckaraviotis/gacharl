@@ -162,3 +162,10 @@ class Game:
                     effects.lightning([level, self.log, result])
 
                     return 'player-cast'
+                if event.key == pygame.K_c:
+                    """KILL"""
+                    menu = Menus.SelectMenu(self.surface, self.render, self.assets, pygame.K_c)
+                    result = menu.display()
+                    effects.confuse([level, self.log, result])
+
+                    return 'player-cast'
