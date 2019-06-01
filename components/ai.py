@@ -33,17 +33,8 @@ class basic_chase:
             dx = player.x - monster.x
             dy = player.y - monster.y
 
-            x = 0
-            if dx < 0:
-                x = -1
-            if dx > 0:
-                x = 1
-
-            y = 0
-            if dy < 0:
-                y = -1
-            if dy > 0:
-                y = 1
+            x = 0 if dx == 0 else int(dx / abs(dx))
+            y = 0 if dy == 0 else int(dy / abs(dy))
 
             self.owner.creature.move(x, y, level)
 
