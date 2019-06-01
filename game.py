@@ -155,3 +155,10 @@ class Game:
                     effects.lightning([level, self.log, result])
 
                     return 'player-cast'
+                if event.key == pygame.K_f:
+                    """Lightning"""
+                    menu = Menus.LineToRadiusMenu(self, pygame.K_f, bypassWalls=True, ignoreFov=True, limit=5, radius=2)
+                    result = menu.display()
+                    effects.lightning([level, self.log, result])
+
+                    return 'player-cast'

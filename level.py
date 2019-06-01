@@ -177,3 +177,135 @@ class Level:
         if limit:
             coords = coords[:limit]
         return coords
+
+    def get_line_inclusive(self, origin, destination):
+        """Return list of all tiles between the two coordinates. Includes origin and destination.
+        origin: (x, y)
+        destination: (x, y)
+        """
+        libtcod.line_init(origin[0], origin[1], destination[0], destination[1])
+
+        coords = []
+        x,y = origin
+
+        while (not x is None):
+            coords.append((x, y))
+            x, y = libtcod.line_step()
+        return coords
+
+    def get_square(self, coord, radius):
+        """Return list of all tiles in the radius around a coordinate
+        coord: (x, y)
+        radius: Integer giving the circle radius
+        bypassWalls: Flag to allow line to pass through walls
+        ignoreFov: Flag to allow line to extend out of FOV
+        """
+
+    def get_circle(self, center, radius):
+        """Return list of all tiles in the radius around a coordinate
+        coord: (x, y)
+        radius: Integer giving the circle radius
+        bypassWalls: Flag to allow line to pass through walls
+        ignoreFov: Flag to allow line to extend out of FOV
+
+        Uses Bresenham's circle algorithm, https://en.wikipedia.org/wiki/Midpoint_circle_algorithm
+        using a line to infill the two points
+        """
+        coords = []
+        f = 1 - radius
+        ddf_x = 1
+        ddf_y = -2 * radius
+        x = 0
+        y = radius
+
+        o1 = (center[0], center[1] + radius)
+        o2 = (center[0], center[1] - radius)
+        oo = self.get_line_inclusive(o1, o2)
+
+        o3 = (center[0] + radius, center[1])
+        o4 = (center[0] - radius, center[1])
+        oa = self.get_line_inclusive(o3, o4)
+
+        coords = oo + oa
+
+        while x < y:
+            if f >= 0:
+                y -= 1
+                ddf_y += 2
+                f += ddf_y
+            x += 1
+            ddf_x += 2
+            f += ddf_x
+
+            ca = (center[0] + x, center[1] + y)
+            cb = (center[0] - x, center[1] + y)
+            cal = self.get_line_inclusive(ca, cb)
+
+            cc = (center[0] + x, center[1] - y)
+            cd = (center[0] - x, center[1] - y)
+            ccl = self.get_line_inclusive(cc, cd)
+
+            ce = (center[0] + y, center[1] + x)
+            cf = (center[0] - y, center[1] + x)
+            cel = self.get_line_inclusive(ce, cf)
+
+            cg = (center[0] + y, center[1] - x)
+            ch = (center[0] - y, center[1] - x)
+            cgl = self.get_line_inclusive(cg, ch)
+
+            candidates = cal + ccl + cel + cgl
+
+            for coord in candidates:
+                coords.append(coord)
+
+
+        return list(set(coords))
+
+    def get_hollow_circle(self, center, radius):
+        """Return list of all tiles in the radius around a coordinate
+        coord: (x, y)
+        radius: Integer giving the circle radius
+        bypassWalls: Flag to allow line to pass through walls
+        ignoreFov: Flag to allow line to extend out of FOV
+
+        Uses Bresenham's circle algorithm, https://en.wikipedia.org/wiki/Midpoint_circle_algorithm
+        """
+        coords = []
+        f = 1 - radius
+        ddf_x = 1
+        ddf_y = -2 * radius
+        x = 0
+        y = radius
+
+        o1 = (center[0], center[1] + radius)
+        o2 = (center[0], center[1] - radius)
+        o3 = (center[0] + radius, center[1])
+        o4 = (center[0] - radius, center[1])
+
+        coords = [o1, o2, o3, o4]
+
+        while x < y:
+            if f >= 0:
+                y -= 1
+                ddf_y += 2
+                f += ddf_y
+            x += 1
+            ddf_x += 2
+            f += ddf_x
+
+            ca = (center[0] + x, center[1] + y)
+            cb = (center[0] - x, center[1] + y)
+            cc = (center[0] + x, center[1] - y)
+            cd = (center[0] - x, center[1] - y)
+            ce = (center[0] + y, center[1] + x)
+            cf = (center[0] - y, center[1] + x)
+            cg = (center[0] + y, center[1] - x)
+            ch = (center[0] - y, center[1] - x)
+
+            candidates = [ca, cb, cc, cd, ce, cf, cg, ch]
+
+            for coord in candidates:
+                coords.append(coord)
+
+
+        return list(set(coords))

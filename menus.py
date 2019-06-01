@@ -243,3 +243,143 @@ class LineToCellMenu:
                         closed = True
 
         return self.result()
+
+"""
+Menu to display for cell/target selection
+"""
+class SelectRadiusMenu:
+    def __init__(self, game, key, bypassWalls = False, ignoreFov = False, radius = None):
+        """Constructor
+        game: A game instance
+        key: The keypress to terminate the menu
+        """
+        self.surface = game.surface
+        self.font = game.assets.fonts['menu']
+        self.key = key
+        self.sprite = game.assets.sprites.S_CELL_HIGHLIGHT
+        self.assets = game.assets
+        self.out_render = game.render
+        self.level = game.current_level()
+        self.bypassWalls = bypassWalls
+        self.ignoreFov = ignoreFov
+        self.radius = radius
+
+    def render(self):
+        """
+        Draw to screen. Called in the menu while loop
+        """
+        self.out_render()
+
+        # Divide then multiply to get a Floor effect to the nearest tile
+        pos = pygame.mouse.get_pos()
+        cell_pos = ( int(pos[0] / self.assets.sprites.width), int(pos[1] / self.assets.sprites.height))
+
+        tiles = self.level.get_circle(cell_pos, self.radius)
+        self.selected = tiles
+
+        for tile in tiles:
+            corrected = (int(tile[0] * self.assets.sprites.width), int(tile[1] * self.assets.sprites.height))
+            if tile == cell_pos:
+                self.surface.blit(self.sprite, corrected)
+            else:
+                temp = pygame.Surface((self.assets.sprites.width, self.assets.sprites.height))
+                temp.fill(constants.COLOR_ARYLIDE_YELLOW)
+                temp.set_alpha(80)
+                self.surface.blit(temp, corrected)
+
+        pygame.display.flip()
+
+    def result(self):
+        return self.selected
+
+    def display(self):
+        closed = False
+        while not closed:
+            self.render()
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == self.key:
+                        closed = True
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        closed = True
+
+        return self.result()
+
+"""
+Menu to display for cell/target selection
+"""
+class LineToRadiusMenu:
+    def __init__(self, game, key, bypassWalls = False, ignoreFov = False, limit = None, radius = None):
+        """Constructor
+        game: A game instance
+        key: The keypress to terminate the menu
+        """
+        self.surface = game.surface
+        self.font = game.assets.fonts['menu']
+        self.key = key
+        self.sprite = game.assets.sprites.S_CELL_HIGHLIGHT
+        self.assets = game.assets
+        self.out_render = game.render
+        self.level = game.current_level()
+        self.bypassWalls = bypassWalls
+        self.ignoreFov = ignoreFov
+        self.limit = limit
+        self.radius = radius
+
+    def render(self):
+        """
+        Draw to screen. Called in the menu while loop
+        """
+        self.out_render()
+
+        # Divide then multiply to get a Floor effect to the nearest tile
+        pos = pygame.mouse.get_pos()
+        cell_pos = ( int(pos[0] / self.assets.sprites.width), int(pos[1] / self.assets.sprites.height))
+
+        line = self.level.get_line((self.level.player.x, self.level.player.y), cell_pos, self.bypassWalls, self.ignoreFov, self.limit)
+
+        for tile in line:
+            corrected = (int(tile[0] * self.assets.sprites.width), int(tile[1] * self.assets.sprites.height))
+            temp = pygame.Surface((self.assets.sprites.width, self.assets.sprites.height))
+            temp.fill(constants.COLOR_ARYLIDE_YELLOW)
+            temp.set_alpha(80)
+            self.surface.blit(temp, corrected)
+
+        center = line[len(line) - 1] if len(line) > 0 else (self.level.player.x, self.level.player.y)
+
+        tiles = self.level.get_circle(center, self.radius)
+
+        for tile in tiles:
+            corrected = (int(tile[0] * self.assets.sprites.width), int(tile[1] * self.assets.sprites.height))
+            if tile == center:
+                self.surface.blit(self.sprite, corrected)
+            if tile not in line:
+                temp = pygame.Surface((self.assets.sprites.width, self.assets.sprites.height))
+                temp.fill(constants.COLOR_ARYLIDE_YELLOW)
+                temp.set_alpha(80)
+                self.surface.blit(temp, corrected)
+
+        sel = line + tiles
+        self.selected = list(set(sel))
+
+        pygame.display.flip()
+
+    def result(self):
+        return self.selected
+
+    def display(self):
+        closed = False
+        while not closed:
+            self.render()
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == self.key:
+                        closed = True
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        closed = True
+
+        return self.result()
