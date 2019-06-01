@@ -20,23 +20,28 @@ class Ai_Test:
 Basic AI that chases a target
 """
 class basic_chase:
-    def __init__(self):
+    def __init__(self, speed = 1):
         self.owner = None
+        self.speed = speed
+        self.step = 0
 
     def turn(self, level):
-        monster = self.owner.creature.owner
-        player = level.player
+        self.step += 1
+        if self.step >= self.speed:
+            monster = self.owner.creature.owner
+            player = level.player
 
-        visible = level.is_visible(monster.x, monster.y)
+            visible = level.is_visible(monster.x, monster.y)
 
-        if visible:
-            dx = player.x - monster.x
-            dy = player.y - monster.y
+            if visible:
+                dx = player.x - monster.x
+                dy = player.y - monster.y
 
-            x = 0 if dx == 0 else int(dx / abs(dx))
-            y = 0 if dy == 0 else int(dy / abs(dy))
+                x = 0 if dx == 0 else int(dx / abs(dx))
+                y = 0 if dy == 0 else int(dy / abs(dy))
 
-            self.owner.creature.move(x, y, level)
+                self.owner.creature.move(x, y, level)
+            self.step = 0
 
 """
 Confuse AI

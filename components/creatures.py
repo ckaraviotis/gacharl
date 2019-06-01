@@ -4,15 +4,13 @@ Creature component.
 Creatures can move, attack and take damage
 """
 class Creature:
-    def __init__(self, name, hp=10, on_death=None, speed=1):
+    def __init__(self, name, hp=10, on_death=None):
         """Constructor"""
         self.name = name
         self.hp = hp
         self.max_hp = hp
         self.on_death = on_death
         self.owner = None
-        self.speed = speed
-        self.step = 0
         if on_death:
             on_death.owner = self
 
@@ -27,23 +25,18 @@ class Creature:
 
     def move(self, dx, dy, level):
         """Attempt to move the Creature, attacking as necessary"""
-        self.step += 1
+        dest_x = self.owner.x + dx
+        dest_y = self.owner.y + dy
 
-        if self.step >= self.speed:
-            dest_x = self.owner.x + dx
-            dest_y = self.owner.y + dy
+        dest_passable = level.is_passable(dest_x, dest_y)
+        tile_occupant = level.get_creature(dest_x, dest_y, self.owner)
 
-            dest_passable = level.is_passable(dest_x, dest_y)
-            tile_occupant = level.get_creature(dest_x, dest_y, self.owner)
+        if tile_occupant:
+            self.attack(tile_occupant, 5)
 
-            if tile_occupant:
-                self.attack(tile_occupant, 5)
-
-            elif dest_passable:
-                self.owner.x = dest_x
-                self.owner.y = dest_y
-
-            self.step = 0
+        elif dest_passable:
+            self.owner.x = dest_x
+            self.owner.y = dest_y
 
     def attack(self, target, damage):
         """Attack target for damage"""
