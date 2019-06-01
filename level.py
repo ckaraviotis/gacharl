@@ -201,7 +201,7 @@ class Level:
         ignoreFov: Flag to allow line to extend out of FOV
         """
 
-    def get_circle(self, center, radius):
+    def get_circle(self, center, radius, bypassWalls = False, ignoreFov = False):
         """Return list of all tiles in the radius around a coordinate
         coord: (x, y)
         radius: Integer giving the circle radius
@@ -258,8 +258,24 @@ class Level:
             for coord in candidates:
                 coords.append(coord)
 
+        validCoords = []
+        for coord in coords:
+            valid = True
 
-        return list(set(coords))
+            if not bypassWalls:
+                if not self.is_passable(coord[0], coord[1]):
+                    valid = False
+
+            if not ignoreFov:
+                if not self.is_visible(coord[0], coord[1]):
+                    valid = False
+
+            if valid:
+                validCoords.append(coord)
+
+
+        validCoords
+        return list(set(validCoords))
 
     def get_hollow_circle(self, center, radius):
         """Return list of all tiles in the radius around a coordinate
