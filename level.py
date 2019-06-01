@@ -161,6 +161,9 @@ class Level:
             if (x, y) == destination:
                 break
 
+            if x < 0 or x > self.width or y < 0 or y > self.height:
+                break
+
             if not ignoreFov:
                 if not infov:
                     validCell = False
@@ -189,6 +192,8 @@ class Level:
         x,y = origin
 
         while (not x is None):
+            if x < 0 or x > self.width or y < 0 or y > self.height:
+                break
             coords.append((x, y))
             x, y = libtcod.line_step()
         return coords
@@ -260,13 +265,19 @@ class Level:
 
         validCoords = []
         for coord in coords:
+            exists = True
             valid = True
+            x, y = coord
 
-            if not bypassWalls:
+            if x < 0 or x > (self.width - 1) or y < 0 or y > (self.height - 1):
+                valid = False
+                exists = False
+
+            if not bypassWalls and exists:
                 if not self.is_passable(coord[0], coord[1]):
                     valid = False
 
-            if not ignoreFov:
+            if not ignoreFov and exists:
                 if not self.is_visible(coord[0], coord[1]):
                     valid = False
 
