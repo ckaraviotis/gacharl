@@ -28,7 +28,7 @@ class CreatureFactory:
         on_death = deaths.drop_corpse()
         alive = True
 
-        creature = creatures.Creature('Blode', 5, on_death)
+        creature = creatures.Creature('Blode', 5, on_death, 3)
         ai = ais.Ai_Test()
         container = None
         item = items.Item(self.level)
@@ -41,7 +41,7 @@ class CreatureFactory:
         on_death = deaths.drop_corpse()
         alive = True
 
-        creature = creatures.Creature('Beano', 15, on_death)
+        creature = creatures.Creature('Beano', 15, on_death, 3)
         ai = ais.basic_chase()
         container = None
         item = items.Item(self.level)
