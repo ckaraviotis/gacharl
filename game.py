@@ -46,8 +46,10 @@ class Game:
         # Ai Turns
         if action == 'player-action':
             for npc in level.npcs:
-                if npc.ai:
-                    npc.ai.turn(level)
+                # if npc.ai:
+                #     npc.ai.turn(level)
+                action = npc.takeTurn()
+                action.perform()
 
         # Render!
         self.render()
@@ -77,19 +79,19 @@ class Game:
                 return 'quit'
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
-                    level.player.creature.move(0, -1, level)
+                    level.player.race.move(0, -1, level)
                     return 'player-action'
                 if event.key == pygame.K_DOWN:
-                    level.player.creature.move(0, 1, level)
+                    level.player.race.move(0, 1, level)
                     return 'player-action'
                 if event.key == pygame.K_LEFT:
-                    level.player.creature.move(-1, 0, level)
+                    level.player.race.move(-1, 0, level)
                     return 'player-action'
                 if event.key == pygame.K_RIGHT:
-                    level.player.creature.move(1, 0, level)
+                    level.player.race.move(1, 0, level)
                     return 'player-action'
                 if event.key == pygame.K_PERIOD:
-                    level.player.creature.move(0, 0, level)
+                    level.player.race.move(0, 0, level)
                     return 'player-action'
                 if event.key == pygame.K_g:
                     """Get"""
@@ -142,8 +144,8 @@ class Game:
                     objects = level.get_objects(result[0], result[1])
 
                     for o in objects:
-                        if o.creature:
-                            self.log.add(f'You see {o.creature.name} the {o.name}', 'info')
+                        if o.race:
+                            self.log.add(f'You see {o.race.name} the {o.name}', 'info')
                         else:
                             self.log.add(f'You see a {o.name}', 'info')
 

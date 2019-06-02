@@ -1,3 +1,4 @@
+from actions import random_walk, Move, Attack, walk_towards_player
 
 """
 Creature component.
@@ -40,5 +41,33 @@ class Creature:
 
     def attack(self, target, damage):
         """Attack target for damage"""
-        self.owner.messages.add(self.owner.creature.name + ' attacks ' + target.creature.name, 'info')
-        target.creature.take_damage(damage)
+        self.owner.messages.add(self.owner.race.name + ' attacks ' + target.race.name, 'info')
+        target.race.take_damage(damage)
+
+"""
+Creature component.
+Creatures can move, attack and take damage
+"""
+class Slime:
+    def __init__(self, name, level, hp=10, on_death=None):
+        """Constructor"""
+        self.name = name
+        self.hp = hp
+        self.max_hp = hp
+        self.on_death = on_death
+        self.owner = None
+        self.move = Move
+        self.pattern = random_walk
+        self.melee = Attack
+        self.level = level
+        if on_death:
+            on_death.owner = self
+
+    def takeTurn(self):
+        dx, dy = self.pattern(self.owner, self.level)
+        tile_occupant = self.level.get_creature(self.owner.x + dx, self.owner.y + dy, self.owner)
+
+        if tile_occupant:
+            return self.melee(self.level, self.owner, tile_occupant, 5)
+        else:
+            return self.move(dx, dy, self.owner, self.level)

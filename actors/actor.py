@@ -2,7 +2,7 @@
 import constants
 
 class Actor:
-    def __init__(self, x, y, w, h, sprite, name, messages, alive = True, creature = None, ai = None, container = None, item = None):
+    def __init__(self, x, y, w, h, sprite, name, messages, alive = True, race = None, ai = None, container = None, item = None):
         self.name = name
         self.messages = messages
         self.alive = alive
@@ -21,13 +21,13 @@ class Actor:
         self.animation_reset = constants.FPS_LIMIT
 
         # Components
-        self.creature = creature
+        self.race = race
         self.ai = ai
         self.container = container
         self.item = item
 
-        if creature:
-            creature.owner = self
+        if race:
+            race.owner = self
         if ai:
             ai.owner = self
         if container:
@@ -48,3 +48,15 @@ class Actor:
                 self.animation_timer = 0
         else:
             surface.blit(self.sprite[0], (self.x * self.w, self.y * self.h))
+
+
+class Monster(Actor):
+    def __init__(self, x, y, w, h, sprite, name, messages, alive = True, race = None, container = None, item = None):
+        super().__init__(x, y, w, h, sprite, name, messages, alive, race, None, container, item)
+
+    def takeTurn(self):
+        return self.race.takeTurn()
+
+class Player(Actor):
+    def __init__(self, x, y, w, h, sprite, name, messages, alive = True, race = None, ai = None, container = None, item = None):
+        super().__init__(x, y, w, h, sprite, name, messages, alive, race, ai, container, item)

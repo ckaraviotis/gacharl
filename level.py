@@ -47,7 +47,7 @@ class Level:
 
     def get_creature(self, x, y, player):
         for o in self.game_objects:
-            if (o is not player and o.x == x and o.y == y and o.creature):
+            if (o is not player and o.x == x and o.y == y and o.race):
                 return o
         return None
 
@@ -80,23 +80,29 @@ class Level:
 
     def populate(self):
         creatures = creature_factory.CreatureFactory(self)
-        potions = potion_factory.PotionFactory(self)
+        # potions = potion_factory.PotionFactory(self)
 
         # Create player
         player = creatures.player(1, 1)
 
         # Create enemy 1
         blode = creatures.blode(10, 4)
+        blode2 = creatures.blode(11, 6)
+        blode3 = creatures.blode(10, 3)
+        blode4 = creatures.blode(14, 5)
+        blode5 = creatures.blode(3, 4)
 
         # Create enemy 2
-        beano = creatures.beano(15, 8)
+        # beano = creatures.beano(15, 8)
 
         # Create item
-        thing = potions.debugItem(3, 3)
-        heal_potion = potions.heal_potion(5, 4)
+        # thing = potions.debugItem(3, 3)
+        # heal_potion = potions.heal_potion(5, 4)
 
-        npcs = [blode, beano]
-        items = [thing, heal_potion]
+        #npcs = [blode, beano]
+        npcs = [blode, blode2, blode3, blode4, blode5]
+        # items = [thing, heal_potion]
+        items = []
 
         self.player = player
         self.npcs = npcs

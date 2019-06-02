@@ -1,5 +1,5 @@
 from pprint import pprint
-from actors.actor import Actor
+from actors.actor import Actor, Monster
 # from components import Creature, Ai_Test, Death_Test, Container, Item, drop_corpse
 import components.ai as ais
 import components.death_effect as deaths
@@ -28,12 +28,14 @@ class CreatureFactory:
         on_death = deaths.drop_corpse()
         alive = True
 
-        creature = creatures.Creature('Blode', 5, on_death)
+        race = creatures.Slime('Blode', self.level, 5, on_death)
         ai = ais.Ai_Test()
         container = None
         item = items.Item(self.level)
 
-        blode = Actor(x, y, sprites.width, sprites.height, sprites.S2_BLODE, 'Slime', self.log, alive, creature, ai, container, item)
+        # blode = Actor(x, y, sprites.width, sprites.height, sprites.S2_BLODE, 'Slime', self.log, alive, creature, ai, container, item)
+        # lf, x, y, w, h, sprite, name, messages, alive = True, race = None, container = None, item = None)
+        blode = Monster(x, y, sprites.width, sprites.height, sprites.S2_BLODE, 'Slime', self.log, alive, race, container, item)
         return blode
 
     def beano(self, x, y):
